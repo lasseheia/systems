@@ -24,7 +24,6 @@
 
   environment.systemPackages = with pkgs; [
     podman
-    brave
     alacritty
   ];
 

@@ -9,8 +9,12 @@ in
     wl-clipboard # for cliphist
     pamixer
     pavucontrol
-    brave
   ];
+
+  programs.chromium = {
+    enable = true;
+    package = pkgs.brave;
+  };
 
   home.sessionVariables = {
     BROWSER = "brave";
