@@ -76,6 +76,13 @@ resource "incus_network_forward" "bridge" {
       listen_port    = "8888"
       target_port    = "8080"
       target_address = incus_instance.zigbee2mqtt.ipv4_address
+    },
+    {
+      description    = "mssql"
+      protocol       = "tcp"
+      listen_port    = "1433"
+      target_port    = "1433"
+      target_address = incus_instance.mssql.ipv4_address
     }
   ]
 }

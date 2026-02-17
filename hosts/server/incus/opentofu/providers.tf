@@ -30,6 +30,13 @@ provider "incus" {
   default_remote = "local"
 
   remote {
+    name     = "mcr"
+    address  = "https://mcr.microsoft.com"
+    protocol = "oci"
+    public   = true
+  }
+
+  remote {
     name     = "github"
     address  = "https://ghcr.io"
     protocol = "oci"
