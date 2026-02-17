@@ -15,6 +15,11 @@ in
   nix.settings.experimental-features = "nix-command flakes";
   nixpkgs.config.allowUnfree = true;
 
+  environment.systemPackages = with pkgs; [
+    freerdp
+    remmina
+  ];
+
   system.stateVersion = "24.11";
   console.keyMap = "no";
   time.timeZone = "Europe/Oslo";

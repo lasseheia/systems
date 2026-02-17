@@ -60,3 +60,7 @@ tofu *args:
 # Repack Windows ISO with VirtIO drivers and import into Incus
 repack-windows-iso:
     sudo {{ tofu_dir }}/repack-windows-iso.sh
+
+# Connect to a Windows VM over RDP
+rdp ip user *args:
+    xfreerdp /v:{{ ip }} /u:{{ user }} /dynamic-resolution /gfx:avc444 /sound:sys:pulse /microphone:sys:pulse /cert:ignore {{ args }}
