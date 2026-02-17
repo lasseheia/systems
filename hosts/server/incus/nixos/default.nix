@@ -10,8 +10,17 @@
       config = {
         "core.https_address" = ":8443";
         "core.storage_buckets_address" = ":8555";
+        "images.compression_algorithm" = "gzip";
+        "backups.compression_algorithm" = "gzip";
       };
     };
+  };
+  systemd.services.incus.serviceConfig = {
+    Nice = 10;
+    IOSchedulingClass = "idle";
+    IOSchedulingPriority = 7;
+    CPUWeight = 20;
+    IOWeight = 20;
   };
   networking.firewall.allowedTCPPorts = [
     8443
