@@ -6,8 +6,8 @@ resource "incus_image" "eclipse_mosquitto" {
 }
 
 resource "incus_instance" "eclipse_mosquitto" {
-  name = "eclipse-mosquitto"
-  type = "container"
+  name  = "eclipse-mosquitto"
+  type  = "container"
   image = incus_image.eclipse_mosquitto.fingerprint
 
   device {
@@ -15,8 +15,8 @@ resource "incus_instance" "eclipse_mosquitto" {
     type = "disk"
 
     properties = {
-      path   = "/"
-      pool   = incus_storage_pool.main.name
+      path = "/"
+      pool = incus_storage_pool.main.name
     }
   }
 
@@ -25,7 +25,8 @@ resource "incus_instance" "eclipse_mosquitto" {
     type = "nic"
 
     properties = {
-      network = incus_network.bridge.name
+      network        = incus_network.bridge.name
+      "ipv4.address" = var.eclipse_mosquitto_ipv4_address
     }
   }
 }

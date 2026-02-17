@@ -1,22 +1,22 @@
 resource "incus_instance" "haos" {
-  name = "haos"
-  type = "virtual-machine"
+  name         = "haos"
+  type         = "virtual-machine"
   architecture = "x86_64"
-  config       = {
+  config = {
     "limits.cpu"          = "4"
     "limits.memory"       = "4GB"
     "security.secureboot" = "false"
   }
-  ephemeral    = false
-  profiles     = ["default"]
+  ephemeral = false
+  profiles  = ["default"]
 
   device {
-    name       = "root"
+    name = "root"
     properties = {
       path = "/"
       pool = "incus"
     }
-    type       = "disk"
+    type = "disk"
   }
 
   device {
@@ -24,16 +24,17 @@ resource "incus_instance" "haos" {
     type = "nic"
 
     properties = {
-      network = incus_network.bridge.name
+      network        = incus_network.bridge.name
+      "ipv4.address" = var.haos_ipv4_address
     }
   }
 
   device {
-    name       = "zwave"
-    type       = "usb"
+    name = "zwave"
+    type = "usb"
     properties = {
-      required = "true"
-      vendorid = "0658"
+      required  = "true"
+      vendorid  = "0658"
       productid = "0200"
     }
   }

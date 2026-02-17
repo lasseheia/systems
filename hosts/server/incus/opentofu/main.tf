@@ -1,5 +1,5 @@
 resource "incus_profile" "default" {
-  name = "default"
+  name        = "default"
   description = "Default Incus profile"
 }
 
@@ -57,17 +57,17 @@ resource "incus_network_forward" "bridge" {
       target_address = incus_instance.kubernetes.ipv4_address
     },
     {
-      description  = "kubernetes-argocd"
-      protocol     = "tcp"
-      listen_port  = "8081"
-      target_port  = "80"
+      description    = "kubernetes-argocd"
+      protocol       = "tcp"
+      listen_port    = "8081"
+      target_port    = "80"
       target_address = incus_instance.kubernetes.ipv4_address
     },
     {
-      description = "eclipse-mosquitto"
-      protocol    = "tcp"
-      listen_port = "1883"
-      target_port = "1883"
+      description    = "eclipse-mosquitto"
+      protocol       = "tcp"
+      listen_port    = "1883"
+      target_port    = "1883"
       target_address = incus_instance.eclipse_mosquitto.ipv4_address
     },
     {

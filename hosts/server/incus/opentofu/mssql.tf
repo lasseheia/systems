@@ -31,7 +31,8 @@ resource "incus_instance" "mssql" {
     type = "nic"
 
     properties = {
-      network = incus_network.bridge.name
+      network        = incus_network.bridge.name
+      "ipv4.address" = var.mssql_ipv4_address
     }
   }
 }

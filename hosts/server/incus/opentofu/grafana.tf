@@ -6,8 +6,8 @@ resource "incus_image" "grafana" {
 }
 
 resource "incus_instance" "grafana" {
-  name = "grafana"
-  type = "container"
+  name  = "grafana"
+  type  = "container"
   image = incus_image.grafana.fingerprint
 
   device {
@@ -15,8 +15,8 @@ resource "incus_instance" "grafana" {
     type = "disk"
 
     properties = {
-      path   = "/"
-      pool   = incus_storage_pool.main.name
+      path = "/"
+      pool = incus_storage_pool.main.name
     }
   }
 
@@ -25,7 +25,8 @@ resource "incus_instance" "grafana" {
     type = "nic"
 
     properties = {
-      network = incus_network.bridge.name
+      network        = incus_network.bridge.name
+      "ipv4.address" = var.grafana_ipv4_address
     }
   }
 }

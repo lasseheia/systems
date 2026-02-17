@@ -8,7 +8,7 @@ resource "incus_image" "kubernetes" {
 resource "incus_instance" "kubernetes" {
   name  = "kubernetes"
   image = incus_image.kubernetes.fingerprint
-  type = "virtual-machine"
+  type  = "virtual-machine"
 
   config = {
     "limits.cpu"          = "4"
@@ -21,8 +21,8 @@ resource "incus_instance" "kubernetes" {
     type = "disk"
 
     properties = {
-      path   = "/"
-      pool   = incus_storage_pool.main.name
+      path = "/"
+      pool = incus_storage_pool.main.name
     }
   }
 
@@ -31,7 +31,8 @@ resource "incus_instance" "kubernetes" {
     type = "nic"
 
     properties = {
-      network = incus_network.bridge.name
+      network        = incus_network.bridge.name
+      "ipv4.address" = var.kubernetes_ipv4_address
     }
   }
 

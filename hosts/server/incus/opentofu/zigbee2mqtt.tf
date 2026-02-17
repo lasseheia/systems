@@ -6,8 +6,8 @@ resource "incus_image" "zigbee2mqtt" {
 }
 
 resource "incus_instance" "zigbee2mqtt" {
-  name = "zigbee2mqtt"
-  type = "container"
+  name  = "zigbee2mqtt"
+  type  = "container"
   image = incus_image.zigbee2mqtt.fingerprint
 
   config = {
@@ -19,8 +19,8 @@ resource "incus_instance" "zigbee2mqtt" {
     type = "disk"
 
     properties = {
-      path   = "/"
-      pool   = incus_storage_pool.main.name
+      path = "/"
+      pool = incus_storage_pool.main.name
     }
   }
 
@@ -29,17 +29,18 @@ resource "incus_instance" "zigbee2mqtt" {
     type = "nic"
 
     properties = {
-      network = incus_network.bridge.name
+      network        = incus_network.bridge.name
+      "ipv4.address" = var.zigbee2mqtt_ipv4_address
     }
   }
 
   device {
-    name       = "conbee"
-    type       = "unix-char"
+    name = "conbee"
+    type = "unix-char"
     properties = {
       required = "true"
-      source = "/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2488969-if00"
-      path = "/dev/ttyACM0"
+      source   = "/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2488969-if00"
+      path     = "/dev/ttyACM0"
     }
   }
 }

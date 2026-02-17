@@ -16,7 +16,7 @@ resource "incus_instance" "windows" {
       path            = "/"
       pool            = incus_storage_pool.main.name
       size            = "80GiB"
-      "io.bus"       = "nvme"
+      "io.bus"        = "nvme"
       "boot.priority" = "1"
     }
   }
@@ -26,7 +26,7 @@ resource "incus_instance" "windows" {
     type = "nic"
 
     properties = {
-      network      = incus_network.bridge.name
+      network        = incus_network.bridge.name
       "ipv4.address" = var.windows_ipv4_address
     }
   }
