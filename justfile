@@ -56,3 +56,7 @@ tofu *args:
     eval "$(grep -v 'use flake' {{ tofu_dir }}/.envrc)"
     cd {{ tofu_dir }}
     nix develop --command tofu {{ args }}
+
+# Repack Windows ISO with VirtIO drivers and import into Incus
+repack-windows-iso:
+    sudo {{ tofu_dir }}/repack-windows-iso.sh

@@ -83,6 +83,13 @@ resource "incus_network_forward" "bridge" {
       listen_port    = "1433"
       target_port    = "1433"
       target_address = incus_instance.mssql.ipv4_address
+    },
+    {
+      description    = "windows-rdp"
+      protocol       = "tcp"
+      listen_port    = "3389"
+      target_port    = "3389"
+      target_address = var.windows_ipv4_address
     }
   ]
 }
