@@ -96,6 +96,10 @@
       enableZshIntegration = true;
     };
 
-    opencode.enable = true;
+    opencode = {
+      enable = true;
+      settings.theme = "transparent";
+      themes.transparent = ./opencode-transparent-theme.json;
+    };
   };
 }
