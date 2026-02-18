@@ -3,7 +3,7 @@ resource "incus_instance" "windows" {
   type = "virtual-machine"
 
   config = {
-    "limits.cpu"          = "8"
+    "limits.cpu"          = "4"
     "limits.memory"       = "12GB"
     "security.secureboot" = "false"
   }
