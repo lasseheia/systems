@@ -60,4 +60,28 @@
   #   open an issue at <https://github.com/nix-darwin/nix-darwin/issues/new>
   #   and include as much information as possible.
   system.primaryUser = "lasse";
+
+  system.defaults = {
+    NSGlobalDomain = {
+      "com.apple.keyboard.fnState" = true; # Use F1, F2, etc. keys as standard function keys.
+      AppleMetricUnits = 1;
+      AppleICUForce24HourTime = true;
+      AppleTemperatureUnit = "Celsius";
+      AppleMeasurementUnits = "Centimeters";
+      AppleInterfaceStyle = "Dark";
+      AppleScrollerPagingBehavior = true; # Jump to the spot that's clicked on the scroll bar
+      "com.apple.swipescrolldirection" = false; # Whether to enable "Natural" scrolling direction
+    };
+    hitoolbox.AppleFnUsageType = "Do Nothing"; # What the Fn key does when pressed alone
+  };
+  system.keyboard = {
+    enableKeyMapping = true;
+    swapLeftCtrlAndFn = true;
+    swapLeftCommandAndLeftAlt = true;
+    remapCapsLockToEscape = true;
+  };
+
+  services.aerospace = {
+    enable = true;
+  };
 }
