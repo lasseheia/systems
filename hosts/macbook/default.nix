@@ -1,5 +1,11 @@
 { inputs, pkgs, ... }:
 
+let
+  dockerShim = pkgs.writeShellScriptBin "docker" ''
+    #!/usr/bin/env bash
+    exec ${pkgs.podman}/bin/podman "$@"
+  '';
+in
 {
   imports = [
     inputs.home-manager.darwinModules.default
@@ -24,6 +30,7 @@
 
   environment.systemPackages = with pkgs; [
     podman
+    dockerShim
     alacritty
   ];
 
