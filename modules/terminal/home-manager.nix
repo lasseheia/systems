@@ -2,6 +2,7 @@
 
 {
   home.packages = [
+    pkgs.htop
     pkgs.kubectl
     pkgs.jq
     pkgs.yq-go
