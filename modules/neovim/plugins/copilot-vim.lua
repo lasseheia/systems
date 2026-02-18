@@ -1,1 +1,3 @@
-vim.g.copilot_filetypes = {gitcommit = true}
+vim.g.copilot_filetypes = {
+  gitcommit = true
+}

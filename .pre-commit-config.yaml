@@ -30,6 +30,15 @@ repos:
         files: \.nix$
         pass_filenames: false
 
+  # Lua
+  - repo: local
+    hooks:
+      - id: stylua
+        name: stylua
+        entry: stylua --check
+        language: system
+        files: \.lua$
+
   # OpenTofu
   - repo: local
     hooks:

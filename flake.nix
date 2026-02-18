@@ -33,6 +33,7 @@
               statix
               opentofu
               kubeconform
+              stylua
             ];
           };
         }
