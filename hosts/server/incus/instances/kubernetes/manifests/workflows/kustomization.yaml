@@ -1,0 +1,3 @@
+resources:
+  - argocd-app.yaml
+  - namespace.yaml
