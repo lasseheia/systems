@@ -1,4 +1,3 @@
 resources:
   - argocd-apps-of-apps.yaml
   - argocd/
-  - traefik/
