@@ -1,3 +1,4 @@
 resources:
   - argocd-app.yaml
   - namespace.yaml
+  - nodeport-service.yaml
