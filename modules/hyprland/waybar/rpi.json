@@ -1,19 +1,20 @@
 {
   "mainBar": {
     "modules-left": [
-      "cpu",
-      "memory",
-      "disk#root",
-      "disk#home",
+      "hyprland/workspaces",
       "network"
     ],
     "modules-center": [
       "clock"
     ],
     "modules-right": [
-      "tray",
+      "cpu",
+      "memory",
+      "disk#root",
+      "disk#home",
       "pulseaudio",
-      "bluetooth"
+      "bluetooth",
+      "tray"
     ]
   }
 }

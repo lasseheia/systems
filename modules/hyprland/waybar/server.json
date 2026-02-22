@@ -1,20 +1,21 @@
 {
   "mainBar": {
     "modules-left": [
-      "cpu",
-      "memory",
-      "disk#root",
-      "disk#home",
-      "disk#nix",
+      "hyprland/workspaces",
       "network"
     ],
     "modules-center": [
       "clock"
     ],
     "modules-right": [
-      "tray",
+      "cpu",
+      "memory",
+      "disk#root",
+      "disk#home",
+      "disk#nix",
       "pulseaudio",
-      "bluetooth"
+      "bluetooth",
+      "tray"
     ],
     "disk#nix": {
       "interval": 5,

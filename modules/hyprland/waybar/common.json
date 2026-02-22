@@ -9,6 +9,21 @@
       "format": "\uf017 {:%a %d %b  %H:%M}",
       "tooltip-format": "{:%Y-%m-%d %H:%M:%S}"
     },
+    "hyprland/workspaces": {
+      "format": "{name}",
+      "on-click": "activate",
+      "sort-by-number": true,
+      "all-outputs": true,
+      "persistent-workspaces": {
+        "*": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
     "pulseaudio": {
       "format": "{icon}  {volume:2}%",
       "format-bluetooth": "{icon}  {volume}%\uf294",

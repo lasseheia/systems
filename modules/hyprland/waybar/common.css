@@ -31,6 +31,7 @@ tooltip label {
 
 #clock,
 #pulseaudio,
+#workspaces,
 #cpu,
 #memory,
 #disk,
@@ -49,6 +50,7 @@ tooltip label {
 
 #clock:hover,
 #pulseaudio:hover,
+#workspaces:hover,
 #cpu:hover,
 #memory:hover,
 #disk:hover,
@@ -63,6 +65,28 @@ tooltip label {
   color: #d7dce5;
   font-weight: 600;
   letter-spacing: 0.2px;
+}
+
+#workspaces {
+  padding: 0 6px;
+}
+
+#workspaces button {
+  color: #7a8596;
+  background: transparent;
+  padding: 1px 8px;
+  margin: 2px 2px;
+  border-radius: 999px;
+}
+
+#workspaces button.active {
+  color: #d7dce5;
+  background: rgba(95, 158, 168, 0.35);
+}
+
+#workspaces button.urgent {
+  color: #1f2329;
+  background: rgba(201, 123, 135, 0.95);
 }
 
 #network {

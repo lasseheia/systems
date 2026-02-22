@@ -1,19 +1,20 @@
 {
   "mainBar": {
     "modules-left": [
-      "battery",
-      "backlight",
-      "cpu",
-      "memory",
-      "disk#root",
-      "disk#home"
+      "hyprland/workspaces",
+      "network"
     ],
     "modules-center": [
       "clock"
     ],
     "modules-right": [
+      "battery",
+      "backlight",
+      "cpu",
+      "memory",
+      "disk#root",
+      "disk#home",
       "pulseaudio",
-      "network",
       "bluetooth"
     ],
     "backlight": {
