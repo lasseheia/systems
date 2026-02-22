@@ -38,6 +38,14 @@ nvim_tree.setup {
   },
 }
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'NvimTree',
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+  end,
+})
+
 vim.api.nvim_create_autocmd('VimEnter', {
   once = true,
   callback = function()
