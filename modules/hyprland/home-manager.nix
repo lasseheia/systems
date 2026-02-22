@@ -1,4 +1,9 @@
-{ osConfig, pkgs, ... }:
+{
+  lib,
+  osConfig,
+  pkgs,
+  ...
+}:
 
 let
   hostname = osConfig.networking.hostName;
@@ -22,7 +27,7 @@ in
 
   services.dunst.enable = true;
 
-  programs.wpaperd = {
+  services.wpaperd = {
     enable = true;
     settings = {
       default = {
@@ -61,7 +66,7 @@ in
     extraConfig = builtins.readFile ./hyprland/${hostname}.conf;
   };
 
-  programs.zsh.initExtraFirst = ''
+  programs.zsh.initContent = lib.mkBefore ''
     [[ "$(tty)" = "/dev/tty1" ]] && exec start-hyprland
   '';
 
