@@ -30,7 +30,7 @@
       "extractVersion": "^v(?<version>.*)$",
       "postUpgradeTasks": {
         "commands": [
-          "bash -lc 'URL=\"https://github.com/dj95/zjstatus/releases/download/{{{newValue}}}/zjstatus.wasm\"; HASH=$(nix store prefetch-file --json \"$URL\" | python3 -c '\''import json,sys;print(json.load(sys.stdin)[\"hash\"])'\''); sed -i -E \"s#hash = \\\"[^\\\"]+\\\";#hash = \\\"$HASH\\\";#\" pkgs/zjstatus-plugin/default.nix'"
+          "bash -lc 'URL=\"https://github.com/dj95/zjstatus/releases/download/{{{newValue}}}/zjstatus.wasm\"; HASH=$(nix store prefetch-file --json \"$URL\" | python3 -c \"import json,sys;print(json.load(sys.stdin)[\\\"hash\\\"])\"); sed -i -E \"s#hash = \\\"[^\\\"]+\\\";#hash = \\\"$HASH\\\";#\" pkgs/zjstatus-plugin/default.nix'"
         ],
         "fileFilters": [
           "pkgs/zjstatus-plugin/default.nix"
