@@ -6,7 +6,7 @@
 }:
 
 let
-  profile = osConfig.modules.hyprland.profile;
+  inherit (osConfig.modules.hyprland) profile;
   waybarCommon = builtins.fromJSON (builtins.readFile ./waybar/common.json);
   waybarHost = builtins.fromJSON (builtins.readFile ./waybar/${profile}.json);
   waybarCommonStyle = builtins.readFile ./waybar/common.css;
@@ -21,9 +21,36 @@ in
     overskride
   ];
 
-  programs.chromium = {
-    enable = true;
-    package = pkgs.brave;
+  programs = {
+    chromium = {
+      enable = true;
+      package = pkgs.brave;
+    };
+
+    wofi = {
+      enable = true;
+      settings = {
+        show = "drun";
+        width = 750;
+        height = 400;
+        always_parse_args = true;
+        show_all = false;
+        print_command = true;
+        insensitive = true;
+        prompt = "Hmm, what do you want to run?";
+      };
+      style = builtins.readFile ./wofi.css;
+    };
+
+    waybar = {
+      enable = true;
+      settings = lib.recursiveUpdate waybarCommon waybarHost;
+      style = ''
+        ${waybarCommonStyle}
+
+        ${waybarHostStyle}
+      '';
+    };
   };
 
   home.sessionVariables = {
@@ -57,36 +84,28 @@ in
     };
   };
 
-  services.dunst.enable = true;
+  services = {
+    dunst.enable = true;
 
-  services.wpaperd = {
-    enable = true;
-    settings = {
-      default = {
-        path = "${./wallpapers}";
-        duration = "30m";
-        apply-shadow = true;
-        sorting = "random";
+    wpaperd = {
+      enable = true;
+      settings = {
+        default = {
+          path = "${./wallpapers}";
+          duration = "30m";
+          apply-shadow = true;
+          sorting = "random";
+        };
       };
     };
-  };
 
-  programs.wofi = {
-    enable = true;
-    settings = {
-      show = "drun";
-      width = 750;
-      height = 400;
-      always_parse_args = true;
-      show_all = false;
-      print_command = true;
-      insensitive = true;
-      prompt = "Hmm, what do you want to run?";
+    copyq.enable = true;
+
+    flameshot = {
+      enable = true;
+      package = pkgs.flameshot.override { enableWlrSupport = true; };
     };
-    style = builtins.readFile ./wofi.css;
   };
-
-  services.copyq.enable = true;
 
   xdg.configFile."flameshot/flameshot.ini".text = ''
     [General]
@@ -147,18 +166,4 @@ in
     '';
   };
 
-  programs.waybar = {
-    enable = true;
-    settings = lib.recursiveUpdate waybarCommon waybarHost;
-    style = ''
-      ${waybarCommonStyle}
-
-      ${waybarHostStyle}
-    '';
-  };
-
-  services.flameshot = {
-    enable = true;
-    package = pkgs.flameshot.override { enableWlrSupport = true; };
-  };
 }

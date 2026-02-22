@@ -69,13 +69,16 @@ in
     };
   };
 
-  boot.kernel.sysctl = {
-    "vm.swappiness" = 10;
-    "vm.dirty_background_ratio" = 5;
-    "vm.dirty_ratio" = 15;
-  };
+  boot = {
+    kernel.sysctl = {
+      "vm.swappiness" = 10;
+      "vm.dirty_background_ratio" = 5;
+      "vm.dirty_ratio" = 15;
+    };
 
-  boot.kernelParams = [ "noresume" ];
+    kernelParams = [ "noresume" ];
+    consoleLogLevel = 3;
+  };
 
   # Keep zram swap, but do not wait for the ZFS zvol swap device during boot.
   swapDevices = lib.mkForce [ ];
@@ -85,8 +88,6 @@ in
     memoryPercent = 20;
     priority = 100;
   };
-
-  boot.consoleLogLevel = 3;
 
   services.openssh = {
     enable = true;
@@ -129,8 +130,10 @@ in
         homeDirectory = "/home/lasse";
       };
 
-      programs.zsh.shellAliases.opencode = "opencode-limited";
-      programs.opencode.package = pkgs.opencode;
+      programs = {
+        zsh.shellAliases.opencode = "opencode-limited";
+        opencode.package = pkgs.opencode;
+      };
 
       home.packages = [ opencodeLimited ];
 

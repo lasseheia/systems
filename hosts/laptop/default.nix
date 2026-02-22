@@ -4,12 +4,16 @@
   modules.hyprland.profile = "laptop";
 
   system.stateVersion = "23.05";
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-  nix.optimise.automatic = true;
-  nix.settings.auto-optimise-store = true;
+  nix = {
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      auto-optimise-store = true;
+    };
+    optimise.automatic = true;
+  };
   nixpkgs.hostPlatform = "x86_64-linux";
   nixpkgs.config.allowUnfree = true;
 

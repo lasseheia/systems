@@ -11,11 +11,31 @@ in
     inputs.home-manager.darwinModules.default
   ];
 
-  system.stateVersion = 4;
-  nix.enable = false; # Required to use nix-darwin
-  nix.package = pkgs.lix;
+  system = {
+    stateVersion = 4;
+    primaryUser = "lasse";
+    defaults = {
+      NSGlobalDomain = {
+        "com.apple.keyboard.fnState" = true; # Use F1, F2, etc. keys as standard function keys.
+        AppleMetricUnits = 1;
+        AppleICUForce24HourTime = true;
+        AppleTemperatureUnit = "Celsius";
+        AppleMeasurementUnits = "Centimeters";
+        AppleInterfaceStyle = "Dark";
+        AppleScrollerPagingBehavior = true; # Jump to the spot that's clicked on the scroll bar
+        "com.apple.swipescrolldirection" = false; # Whether to enable "Natural" scrolling direction
+      };
+      hitoolbox.AppleFnUsageType = "Do Nothing"; # What the Fn key does when pressed alone
+    };
+  };
+
+  nix = {
+    enable = false; # Required to use nix-darwin
+    package = pkgs.lix;
+    settings.experimental-features = "nix-command flakes";
+  };
+
   nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = "nix-command flakes";
 
   nixpkgs.hostPlatform = {
     system = "aarch64-darwin";
@@ -34,15 +54,17 @@ in
     alacritty
   ];
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users.lasse = {
-    home.stateVersion = "23.11";
-    imports = [
-      ../../modules/terminal/home-manager.nix
-      ../../modules/neovim/home-manager.nix
-      ../../modules/git/home-manager.nix
-    ];
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.lasse = {
+      home.stateVersion = "23.11";
+      imports = [
+        ../../modules/terminal/home-manager.nix
+        ../../modules/neovim/home-manager.nix
+        ../../modules/git/home-manager.nix
+      ];
+    };
   };
 
   # - Previously, some nix-darwin options applied to the user running
@@ -66,21 +88,6 @@ in
   #   If you run into any unexpected issues with the migration, please
   #   open an issue at <https://github.com/nix-darwin/nix-darwin/issues/new>
   #   and include as much information as possible.
-  system.primaryUser = "lasse";
-
-  system.defaults = {
-    NSGlobalDomain = {
-      "com.apple.keyboard.fnState" = true; # Use F1, F2, etc. keys as standard function keys.
-      AppleMetricUnits = 1;
-      AppleICUForce24HourTime = true;
-      AppleTemperatureUnit = "Celsius";
-      AppleMeasurementUnits = "Centimeters";
-      AppleInterfaceStyle = "Dark";
-      AppleScrollerPagingBehavior = true; # Jump to the spot that's clicked on the scroll bar
-      "com.apple.swipescrolldirection" = false; # Whether to enable "Natural" scrolling direction
-    };
-    hitoolbox.AppleFnUsageType = "Do Nothing"; # What the Fn key does when pressed alone
-  };
   system.keyboard = {
     enableKeyMapping = true;
     swapLeftCtrlAndFn = true;

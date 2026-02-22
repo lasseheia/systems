@@ -14,23 +14,24 @@
 
   networking.hostName = "laptop";
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      # Limit the number of generations to keep
+      systemd-boot.configurationLimit = 10;
+    };
+
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "nvme"
+      "usb_storage"
+      "sd_mod"
+      "rtsx_pci_sdmmc"
+    ];
+    initrd.kernelModules = [ "dm-snapshot" ];
+    kernelModules = [ "kvm-intel" ];
   };
-
-  # Limit the number of generations to keep
-  boot.loader.systemd-boot.configurationLimit = 10;
-
-  boot.initrd.availableKernelModules = [
-    "xhci_pci"
-    "nvme"
-    "usb_storage"
-    "sd_mod"
-    "rtsx_pci_sdmmc"
-  ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" ];
 
   networking.hostId = "b648d919"; # Randomly generated host ID, required for ZFS
   disko.devices = {

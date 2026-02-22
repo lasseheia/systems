@@ -18,29 +18,33 @@ in
     pkgs.nerd-fonts.sauce-code-pro
   ];
 
-  xdg.configFile."zellij/config.kdl" = {
-    source = ./zellij.kdl;
-  };
+  xdg = {
+    configFile = {
+      "zellij/config.kdl" = {
+        source = ./zellij.kdl;
+      };
 
-  xdg.configFile."zellij/plugins/zjstatus.wasm".source =
-    "${customPkgs.zjstatusPlugin}/share/zellij/plugins/zjstatus.wasm";
+      "zellij/plugins/zjstatus.wasm".source =
+        "${customPkgs.zjstatusPlugin}/share/zellij/plugins/zjstatus.wasm";
 
-  xdg.configFile."opencode/AGENTS.md".text = ''
-    # Personal OpenCode Rules
+      "opencode/AGENTS.md".text = ''
+        # Personal OpenCode Rules
 
-    - Never run `git push`.
-    - Only create commits when I explicitly ask for it.
-    - Show the `git diff` before creating a commit.
-  '';
+        - Never run `git push`.
+        - Only create commits when I explicitly ask for it.
+        - Show the `git diff` before creating a commit.
+      '';
 
-  xdg.configFile."opencode/opencode.json".text = builtins.toJSON {
-    "$schema" = "https://opencode.ai/config.json";
-    permission = {
-      bash = {
-        "*" = "ask";
-        "git *" = "allow";
-        "git commit *" = "ask";
-        "git push *" = "deny";
+      "opencode/opencode.json".text = builtins.toJSON {
+        "$schema" = "https://opencode.ai/config.json";
+        permission = {
+          bash = {
+            "*" = "ask";
+            "git *" = "allow";
+            "git commit *" = "ask";
+            "git push *" = "deny";
+          };
+        };
       };
     };
   };

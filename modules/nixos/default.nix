@@ -17,13 +17,16 @@
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "23.05";
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-
-  nix.optimise.automatic = true;
-  nix.settings.auto-optimise-store = true;
+  nix = {
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      auto-optimise-store = true;
+    };
+    optimise.automatic = true;
+  };
 
   networking = {
     useNetworkd = true;
