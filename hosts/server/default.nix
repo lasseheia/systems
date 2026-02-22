@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }:
@@ -37,6 +38,8 @@ let
   '';
 in
 {
+  modules.hyprland.profile = "server";
+
   imports = [
     inputs.home-manager.nixosModules.default
     inputs.sops-nix.nixosModules.sops
@@ -71,6 +74,19 @@ in
     "vm.dirty_background_ratio" = 5;
     "vm.dirty_ratio" = 15;
   };
+
+  boot.kernelParams = [ "noresume" ];
+
+  # Keep zram swap, but do not wait for the ZFS zvol swap device during boot.
+  swapDevices = lib.mkForce [ ];
+
+  zramSwap = {
+    enable = true;
+    memoryPercent = 20;
+    priority = 100;
+  };
+
+  boot.consoleLogLevel = 3;
 
   services.openssh = {
     enable = true;

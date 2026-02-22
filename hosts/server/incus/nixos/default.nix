@@ -4,7 +4,7 @@
   virtualisation.incus = {
     enable = true;
     package = pkgs.incus; # Default is pkgs.incusStable
-    agent.enable = true;
+    agent.enable = false;
     ui.enable = true;
     preseed = {
       config = {
