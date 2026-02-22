@@ -1,59 +1,25 @@
 {
   "mainBar": {
-    "layer": "top",
-    "position": "top",
-    "modules-left": ["cpu", "memory", "disk#root", "disk#home", "disk#nix", "network"],
-    "modules-center": ["clock"],
-    "modules-right": ["tray", "pulseaudio"],
-    "clock": {
-      "interval": 30,
-      "format": "{:%Y-%m-%d %H:%M}"
-    },
-    "pulseaudio": {
-      "format": "{icon} {volume:2}%",
-      "format-bluetooth": "{icon}  {volume}%",
-      "format-muted": "MUTE",
-      "format-icons": {
-        "headphones": "",
-        "default": ["", ""]
-      },
-      "scroll-step": 5,
-      "on-click": "pamixer -t",
-      "on-click-right": "pavucontrol"
-    },
-    "cpu": {
-      "interval": 5,
-      "format": "CPU {usage:2}%"
-    },
-    "memory": {
-      "interval": 5,
-      "format": "Mem {}%"
-    },
-    "disk#root": {
-      "interval": 5,
-      "format": "Root {percentage_used}%",
-      "path": "/"
-    },
-    "disk#home": {
-      "interval": 5,
-      "format": "Home {percentage_used}%",
-      "path": "/home"
-    },
+    "modules-left": [
+      "cpu",
+      "memory",
+      "disk#root",
+      "disk#home",
+      "disk#nix",
+      "network"
+    ],
+    "modules-center": [
+      "clock"
+    ],
+    "modules-right": [
+      "tray",
+      "pulseaudio",
+      "bluetooth"
+    ],
     "disk#nix": {
       "interval": 5,
       "format": "Nix {percentage_used}%",
       "path": "/nix"
-    },
-    "network": {
-      "format": "{ifname}",
-      "format-wifi": "{essid} ({signalStrength}%) ",
-      "format-ethernet": "{ifname} ",
-      "format-disconnected": "",
-      "tooltip-format": "{ifname}",
-      "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-      "tooltip-format-ethernet": "{ifname} ",
-      "tooltip-format-disconnected": "Disconnected",
-      "max-length": 50
     }
   }
 }
