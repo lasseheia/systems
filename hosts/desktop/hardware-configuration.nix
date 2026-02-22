@@ -90,9 +90,13 @@
 
           "root/swap" = {
             type = "zfs_volume";
-            size = "10M";
+            size = "8G";
             content = {
               type = "swap";
+              mountOptions = [
+                "defaults"
+                "nofail"
+              ];
             };
             options = {
               volblocksize = "4096";

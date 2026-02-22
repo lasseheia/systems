@@ -1,6 +1,8 @@
 { inputs, pkgs, ... }:
 
 {
+  modules.hyprland.profile = "laptop";
+
   system.stateVersion = "23.05";
   nix.settings.experimental-features = [
     "nix-command"
@@ -37,6 +39,12 @@
   };
 
   security.polkit.enable = true;
+
+  zramSwap = {
+    enable = true;
+    memoryPercent = 25;
+    priority = 100;
+  };
 
   home-manager = {
     useGlobalPkgs = true;
