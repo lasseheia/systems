@@ -37,7 +37,7 @@
       },
       "scroll-step": 5,
       "on-click": "pamixer -t",
-      "on-click-right": "pwvucontrol"
+      "on-click-right": "waybar-audio-menu"
     },
     "cpu": {
       "interval": 5,
@@ -68,7 +68,7 @@
       "tooltip-format-disconnected": "Disconnected",
       "max-length": 22,
       "on-click": "alacritty -e nmtui",
-      "on-click-right": "alacritty -e nmtui",
+      "on-click-right": "waybar-network-menu",
       "on-click-middle": "sh -c \"if [ \\\"$(nmcli radio wifi)\\\" = enabled ]; then nmcli radio wifi off; else nmcli radio wifi on; fi\""
     },
     "bluetooth": {
@@ -81,7 +81,7 @@
       "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
       "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
       "on-click": "if bluetoothctl show | grep -q 'Powered: no'; then bluetoothctl power on; else bluetoothctl power off; fi",
-      "on-click-right": "overskride"
+      "on-click-right": "waybar-bluetooth-menu"
     }
   }
 }

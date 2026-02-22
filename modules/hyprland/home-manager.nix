@@ -11,6 +11,96 @@ let
   waybarHost = builtins.fromJSON (builtins.readFile ./waybar/${profile}.json);
   waybarCommonStyle = builtins.readFile ./waybar/common.css;
   waybarHostStyle = builtins.readFile ./waybar/${profile}.css;
+
+  waybarNetworkMenu = pkgs.writeShellScriptBin "waybar-network-menu" ''
+    set -eu
+
+    choice=$(printf '%s\n' "Toggle Wi-Fi" "Open nmtui" "" | wofi --dmenu --prompt "Network" || true)
+    case "$choice" in
+      "Toggle Wi-Fi")
+        if [ "$(nmcli radio wifi)" = "enabled" ]; then
+          nmcli radio wifi off
+        else
+          nmcli radio wifi on
+        fi
+        ;;
+      "Open nmtui")
+        alacritty -e nmtui
+        ;;
+    esac
+  '';
+
+  waybarAudioMenu = pkgs.writeShellScriptBin "waybar-audio-menu" ''
+    set -eu
+
+    choice=$(printf '%s\n' "Mute / Unmute" "Volume +5%" "Volume -5%" "Open Mixer" "" | wofi --dmenu --prompt "Audio" || true)
+    case "$choice" in
+      "Mute / Unmute")
+        pamixer -t
+        ;;
+      "Volume +5%")
+        pamixer -i 5
+        ;;
+      "Volume -5%")
+        pamixer -d 5
+        ;;
+      "Open Mixer")
+        pwvucontrol
+        ;;
+    esac
+  '';
+
+  waybarBluetoothMenu = pkgs.writeShellScriptBin "waybar-bluetooth-menu" ''
+    set -eu
+
+    choice=$(printf '%s\n' "Toggle Bluetooth" "Open Overskride" "" | wofi --dmenu --prompt "Bluetooth" || true)
+    case "$choice" in
+      "Toggle Bluetooth")
+        if bluetoothctl show | grep -q "Powered: yes"; then
+          bluetoothctl power off
+        else
+          bluetoothctl power on
+        fi
+        ;;
+      "Open Overskride")
+        overskride
+        ;;
+    esac
+  '';
+
+  hyprBindsHelp = pkgs.writeShellScriptBin "hypr-binds-help" ''
+    set -eu
+
+    printf '%s\n' \
+      "Launchers" \
+      "  SUPER + Return   Alacritty" \
+      "  SUPER + R        App launcher (Wofi)" \
+      "  SUPER + V        Clipboard history" \
+      "  SUPER + B        Bluetooth app (Overskride)" \
+      "  SUPER + S        Audio mixer" \
+      "" \
+      "Windows" \
+      "  SUPER + Q        Close focused window" \
+      "  SUPER + F        Fullscreen" \
+      "  SUPER + M        Exit Hyprland" \
+      "" \
+      "Focus" \
+      "  SUPER + H/J/K/L  Move focus" \
+      "" \
+      "Resize" \
+      "  SUPER + CTRL + H/J/K/L   Resize active window" \
+      "" \
+      "Move Window" \
+      "  SUPER + SHIFT + H/J/K/L  Move active window" \
+      "" \
+      "Workspaces" \
+      "  SUPER + 1..0     Switch to workspace 1..10" \
+      "  SUPER + SHIFT + 1..0  Move window to workspace 1..10" \
+      "" \
+      "Help" \
+      "  SUPER + F1       Show this keybind help" \
+      | wofi --dmenu --prompt "Hyprland keybinds" --insensitive >/dev/null
+  '';
 in
 {
   home.packages = with pkgs; [
@@ -19,6 +109,10 @@ in
     pamixer
     pwvucontrol
     overskride
+    waybarNetworkMenu
+    waybarAudioMenu
+    waybarBluetoothMenu
+    hyprBindsHelp
   ];
 
   programs = {
