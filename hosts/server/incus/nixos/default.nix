@@ -28,17 +28,10 @@
       config = {
         "core.https_address" = ":8443";
         "core.storage_buckets_address" = ":8555";
-        "images.compression_algorithm" = "gzip";
-        "backups.compression_algorithm" = "gzip";
+        "images.compression_algorithm" = "zstd";
+        "backups.compression_algorithm" = "zstd";
       };
     };
-  };
-  systemd.services.incus.serviceConfig = {
-    Nice = 10;
-    IOSchedulingClass = "idle";
-    IOSchedulingPriority = 7;
-    CPUWeight = 20;
-    IOWeight = 20;
   };
   security.apparmor.enable = true;
   security.apparmor.includes."abstractions/base" = pkgs.lib.mkAfter ''

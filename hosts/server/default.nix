@@ -69,7 +69,7 @@ in
 
   boot = {
     kernel.sysctl = {
-      "vm.swappiness" = 10;
+      "vm.swappiness" = 5;
       "vm.dirty_background_ratio" = 5;
       "vm.dirty_ratio" = 15;
     };
@@ -92,6 +92,8 @@ in
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
   };
+
+  powerManagement.cpuFreqGovernor = "performance";
 
   users.mutableUsers = true;
   users.users = {
