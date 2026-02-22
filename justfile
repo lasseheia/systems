@@ -10,6 +10,10 @@ rebuild host:
     sudo nixos-rebuild switch \
       --flake {{ repo_root }}/hosts/{{ host }}#{{ host }}
 
+# Interactive NixOS apply (build + diff + dry-activate + confirm + switch)
+apply host:
+    ./nixos-plan-apply.sh apply {{ repo_root }} {{ host }}
+
 # Rebuild macbook locally (nix-darwin)
 rebuild-macbook:
     sudo darwin-rebuild switch \
