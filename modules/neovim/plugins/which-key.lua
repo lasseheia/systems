@@ -10,5 +10,6 @@ which_key.add {
   { '<leader>g', group = 'Git' },
   { '<leader>e', group = 'Edit' },
   { '<leader>d', group = 'Dotnet' },
+  { '<leader>n', group = 'Nix' },
   { '<leader>?', '<cmd>WhichKey<CR>', desc = 'Show keymaps' },
 }

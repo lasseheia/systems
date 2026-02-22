@@ -32,6 +32,19 @@ vim.keymap.set('n', '<leader>dr', function()
   run_in_split('dotnet run')
 end, { desc = 'Dotnet run' })
 
+vim.keymap.set('n', '<leader>nf', function()
+  vim.cmd('write')
+  run_in_split('alejandra ' .. vim.fn.shellescape(vim.fn.expand('%:p')))
+end, { desc = 'Format Nix file' })
+
+vim.keymap.set('n', '<leader>ns', function()
+  run_in_split('statix check .')
+end, { desc = 'Statix check' })
+
+vim.keymap.set('n', '<leader>nd', function()
+  run_in_split('deadnix .')
+end, { desc = 'Deadnix check' })
+
 local spectre_ok, spectre = pcall(require, 'spectre')
 if spectre_ok then
   vim.keymap.set('n', '<leader>S', function()

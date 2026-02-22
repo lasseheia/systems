@@ -7,6 +7,7 @@ end
 
 configs.setup {
   ensure_installed = {
+    'nix',
     'c_sharp',
   },
   auto_install = false,
