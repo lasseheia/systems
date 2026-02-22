@@ -21,79 +21,60 @@
     vimAlias = true;
     vimdiffAlias = true;
     extraConfig = builtins.readFile ./vimrc;
-    initLua = builtins.readFile ./init.lua;
+    initLua = builtins.concatStringsSep "\n" [
+      (builtins.readFile ./options.lua)
+      (builtins.readFile ./keymaps.lua)
+    ];
     plugins =
       let
-        cmp = [
-          {
-            plugin = pkgs.vimPlugins.nvim-cmp;
-            type = "lua";
-            config = builtins.readFile ./plugins/nvim-cmp.lua;
-          }
+        mkLuaPlugin = plugin: file: {
+          inherit plugin;
+          type = "lua";
+          config = builtins.readFile file;
+        };
+
+        corePlugins = [
+          pkgs.vimPlugins.diffview-nvim
+          pkgs.vimPlugins.nvim-web-devicons
+          pkgs.vimPlugins.vim-visual-multi
+        ];
+
+        uiPlugins = [
+          (mkLuaPlugin pkgs.vimPlugins.material-nvim ./plugins/material.lua)
+          (mkLuaPlugin pkgs.vimPlugins.which-key-nvim ./plugins/which-key.lua)
+          (mkLuaPlugin pkgs.vimPlugins.nvim-tree-lua ./plugins/nvim-tree-lua.lua)
+          (mkLuaPlugin pkgs.vimPlugins.gitsigns-nvim ./plugins/gitsigns-nvim.lua)
+        ];
+
+        lspPlugins = [
+          (mkLuaPlugin pkgs.vimPlugins.nvim-lspconfig ./plugins/nvim-lspconfig.lua)
+        ];
+
+        searchPlugins = [
+          (mkLuaPlugin pkgs.vimPlugins.telescope-nvim ./plugins/telescope-nvim.lua)
+          (mkLuaPlugin pkgs.vimPlugins.nvim-spectre ./plugins/nvim-spectre.lua)
+          (mkLuaPlugin pkgs.vimPlugins.searchbox-nvim ./plugins/searchbox-nvim.lua)
+          pkgs.vimPlugins.nui-nvim
+          (mkLuaPlugin pkgs.vimPlugins.nvim-treesitter ./plugins/nvim-treesitter.lua)
+        ];
+
+        completionPlugins = [
+          (mkLuaPlugin pkgs.vimPlugins.nvim-cmp ./plugins/nvim-cmp.lua)
           pkgs.vimPlugins.cmp-nvim-lsp
           pkgs.vimPlugins.cmp-buffer
           pkgs.vimPlugins.cmp-path
+          pkgs.vimPlugins.cmp-git
           pkgs.vimPlugins.cmp-cmdline
-          pkgs.vimPlugins.nvim-cmp
           pkgs.vimPlugins.cmp-vsnip
           pkgs.vimPlugins.vim-vsnip
           pkgs.vimPlugins.markdown-preview-nvim
         ];
-        telescope = [
-          {
-            plugin = pkgs.vimPlugins.telescope-nvim;
-            type = "lua";
-            config = builtins.readFile ./plugins/telescope-nvim.lua;
-          }
-          pkgs.vimPlugins.nvim-treesitter
-        ];
-        searchbox = [
-          {
-            plugin = pkgs.vimPlugins.searchbox-nvim;
-            type = "lua";
-            config = builtins.readFile ./plugins/searchbox-nvim.lua;
-          }
-          pkgs.vimPlugins.nui-nvim
-        ];
       in
-      [
-        {
-          plugin = pkgs.vimPlugins.diffview-nvim;
-        }
-        {
-          plugin = pkgs.vimPlugins.copilot-vim;
-          type = "lua";
-          config = builtins.readFile ./plugins/copilot-vim.lua;
-        }
-        {
-          plugin = pkgs.vimPlugins.nvim-web-devicons;
-        }
-        {
-          plugin = pkgs.vimPlugins.nvim-tree-lua;
-          type = "lua";
-          config = builtins.readFile ./plugins/nvim-tree-lua.lua;
-        }
-        {
-          plugin = pkgs.vimPlugins.nvim-lspconfig;
-          type = "lua";
-          config = builtins.readFile ./plugins/nvim-lspconfig.lua;
-        }
-        {
-          plugin = pkgs.vimPlugins.nvim-spectre;
-          type = "lua";
-          config = builtins.readFile ./plugins/nvim-spectre.lua;
-        }
-        {
-          plugin = pkgs.vimPlugins.vim-visual-multi;
-        }
-        {
-          plugin = pkgs.vimPlugins.gitsigns-nvim;
-          type = "lua";
-          config = builtins.readFile ./plugins/gitsigns-nvim.lua;
-        }
-      ]
-      ++ telescope
-      ++ cmp
-      ++ searchbox;
+      corePlugins
+      ++ [ (mkLuaPlugin pkgs.vimPlugins.copilot-vim ./plugins/copilot-vim.lua) ]
+      ++ uiPlugins
+      ++ lspPlugins
+      ++ searchPlugins
+      ++ completionPlugins;
   };
 }

@@ -1,5 +1,8 @@
 -- Set up nvim-cmp.
-local cmp = require'cmp'
+local ok, cmp = pcall(require, 'cmp')
+if not ok then
+  return
+end
 
 cmp.setup({
   snippet = {
@@ -59,6 +62,3 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline' }
   })
 })
-
--- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
