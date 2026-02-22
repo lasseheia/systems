@@ -13,7 +13,7 @@
         "^pkgs/zjstatus-plugin/default\\.nix$"
       ],
       "matchStrings": [
-        "url = \\\"https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>v[^\\\"]+)/zjstatus\\.wasm\\\";\\n\\s*hash = \\\"(?<currentDigest>[^\\\"]+)\\\";"
+        "url = \\\"https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>v[^\\\"]+)/zjstatus\\.wasm\\\";\\n\\s*hash = \\\"[^\\\"]+\\\";"
       ],
       "datasourceTemplate": "github-releases"
     }
@@ -30,7 +30,7 @@
       "extractVersion": "^v(?<version>.*)$",
       "postUpgradeTasks": {
         "commands": [
-          "bash -lc 'URL=\"https://github.com/dj95/zjstatus/releases/download/{{{newValue}}}/zjstatus.wasm\"; HASH=$(nix hash to-sri --type sha256 \"$(nix-prefetch-url --type sha256 \"$URL\")\"); sed -i -E \"s#hash = \\\"[^\\\"]+\\\";#hash = \\\"$HASH\\\";#\" pkgs/zjstatus-plugin/default.nix'"
+          "bash -lc 'URL=\"https://github.com/dj95/zjstatus/releases/download/{{{newValue}}}/zjstatus.wasm\"; HASH=$(nix store prefetch-file --json \"$URL\" | python3 -c '\''import json,sys;print(json.load(sys.stdin)[\"hash\"])'\''); sed -i -E \"s#hash = \\\"[^\\\"]+\\\";#hash = \\\"$HASH\\\";#\" pkgs/zjstatus-plugin/default.nix'"
         ],
         "fileFilters": [
           "pkgs/zjstatus-plugin/default.nix"
