@@ -1,0 +1,72 @@
+{
+  "mainBar": {
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "spacing": 6,
+    "clock": {
+      "interval": 30,
+      "format": "\uf017 {:%a %d %b  %H:%M}",
+      "tooltip-format": "{:%Y-%m-%d %H:%M:%S}"
+    },
+    "pulseaudio": {
+      "format": "{icon}  {volume:2}%",
+      "format-bluetooth": "{icon}  {volume}%\uf294",
+      "format-muted": "\uf6a9 muted",
+      "format-icons": {
+        "headphones": "\uf025",
+        "default": [
+          "\uf027",
+          "\uf028"
+        ]
+      },
+      "scroll-step": 5,
+      "on-click": "pamixer -t",
+      "on-click-right": "pwvucontrol"
+    },
+    "cpu": {
+      "interval": 5,
+      "format": "\uf2db  {usage:2}%"
+    },
+    "memory": {
+      "interval": 5,
+      "format": "\uf538  {}%"
+    },
+    "disk#root": {
+      "interval": 5,
+      "format": "\uf0a0 / {percentage_used}%",
+      "path": "/"
+    },
+    "disk#home": {
+      "interval": 5,
+      "format": "\uf07c ~ {percentage_used}%",
+      "path": "/home"
+    },
+    "network": {
+      "format": "\uf127 disconnected",
+      "format-wifi": "\uf1eb {signalStrength}%",
+      "format-ethernet": "\uf0c1 {ifname}",
+      "format-disconnected": "\uf127 disconnected",
+      "tooltip-format": "{ifname}",
+      "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+      "tooltip-format-ethernet": "{ifname}",
+      "tooltip-format-disconnected": "Disconnected",
+      "max-length": 22,
+      "on-click": "alacritty -e nmtui",
+      "on-click-right": "alacritty -e nmtui",
+      "on-click-middle": "sh -c \"if [ \\\"$(nmcli radio wifi)\\\" = enabled ]; then nmcli radio wifi off; else nmcli radio wifi on; fi\""
+    },
+    "bluetooth": {
+      "format": "\uf294 {status}",
+      "format-disabled": "\uf293 bt off",
+      "format-connected": "\uf294 {device_alias}",
+      "format-connected-battery": "\uf294 {device_alias} {device_battery_percentage}%",
+      "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+      "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+      "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+      "on-click": "if bluetoothctl show | grep -q 'Powered: no'; then bluetoothctl power on; else bluetoothctl power off; fi",
+      "on-click-right": "overskride"
+    }
+  }
+}

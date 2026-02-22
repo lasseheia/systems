@@ -6,22 +6,24 @@
         user = {
           name = "Lasse Heia";
           email = "23742718+lasseheia@users.noreply.github.com";
+          signingkey = "~/.ssh/id_ed25519.pub";
         };
         pull.rebase = true;
         rebase.autoStash = true;
         commit.gpgsign = true;
         commit.verbose = true;
         gpg.format = "ssh";
-        user.signingkey = "~/.ssh/id_ed25519.pub";
         rerere.enabled = true;
         column.ui = "auto";
         branch.sort = "-committerdate";
-        core.pager = "bat";
+        core = {
+          pager = "bat";
+          untrackedcache = true;
+          fsmonitor = true;
+          ignorecase = false;
+        };
         maintenance.auto = true;
-        core.untrackedcache = true;
-        core.fsmonitor = true;
         push.autoSetupRemote = true;
-        core.ignorecase = false;
       };
     };
 

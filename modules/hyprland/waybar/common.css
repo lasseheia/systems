@@ -1,0 +1,102 @@
+* {
+  font-size: 12px;
+  font-family: "FiraCode Nerd Font", monospace;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+}
+
+window#waybar {
+  background: transparent;
+  color: #d7dce5;
+}
+
+window#waybar > box {
+  background: rgba(31, 35, 41, 0.78);
+  border: 1px solid rgba(122, 133, 150, 0.25);
+  border-radius: 14px;
+  margin: 6px 10px 2px;
+  padding: 4px 8px;
+}
+
+tooltip {
+  background: rgba(31, 35, 41, 0.95);
+  border: 1px solid rgba(122, 133, 150, 0.35);
+  border-radius: 10px;
+}
+
+tooltip label {
+  color: #d7dce5;
+}
+
+#clock,
+#pulseaudio,
+#cpu,
+#memory,
+#disk,
+#network,
+#tray,
+#battery,
+#backlight,
+#bluetooth {
+  background: rgba(42, 47, 56, 0.72);
+  border: 1px solid rgba(122, 133, 150, 0.2);
+  border-radius: 999px;
+  margin: 0 4px;
+  padding: 2px 10px;
+  transition: background-color 160ms ease;
+}
+
+#clock:hover,
+#pulseaudio:hover,
+#cpu:hover,
+#memory:hover,
+#disk:hover,
+#network:hover,
+#battery:hover,
+#backlight:hover,
+#bluetooth:hover {
+  background: rgba(50, 56, 66, 0.9);
+}
+
+#clock {
+  color: #d7dce5;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+#network {
+  color: #7a8596;
+}
+
+#network.disconnected {
+  color: #c97b87;
+}
+
+#pulseaudio {
+  color: #6f94b6;
+}
+
+#bluetooth {
+  color: #9d88bf;
+}
+
+#pulseaudio.muted {
+  color: #7a8596;
+}
+
+#cpu {
+  color: #9d88bf;
+}
+
+#memory {
+  color: #5f9ea8;
+}
+
+#disk.root {
+  color: #c9b07b;
+}
+
+#disk.home {
+  color: #c58e66;
+}

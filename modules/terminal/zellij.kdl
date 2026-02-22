@@ -16,12 +16,13 @@ themes {
 
 theme "material-muted"
 show_startup_tips false
-simplified_ui true
+simplified_ui false
 
-pane_frames false
+pane_frames true
 
 ui {
     pane_frames {
+        rounded_corners true
         hide_session_name true
     }
 }

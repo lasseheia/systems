@@ -1,10 +1,28 @@
 { pkgs, ... }:
 {
-  networking.nftables.enable = true;
+  networking = {
+    nftables.enable = true;
+    firewall = {
+      allowedTCPPorts = [
+        8443
+        8555
+      ];
+      interfaces.incusbr0 = {
+        allowedTCPPorts = [
+          53
+          67
+        ];
+        allowedUDPPorts = [
+          53
+          67
+        ];
+      };
+    };
+  };
   virtualisation.incus = {
     enable = true;
     package = pkgs.incus; # Default is pkgs.incusStable
-    agent.enable = true;
+    agent.enable = false;
     ui.enable = true;
     preseed = {
       config = {
@@ -22,18 +40,6 @@
     CPUWeight = 20;
     IOWeight = 20;
   };
-  networking.firewall.allowedTCPPorts = [
-    8443
-    8555
-  ];
-  networking.firewall.interfaces.incusbr0.allowedTCPPorts = [
-    53
-    67
-  ];
-  networking.firewall.interfaces.incusbr0.allowedUDPPorts = [
-    53
-    67
-  ];
   security.apparmor.enable = true;
   security.apparmor.includes."abstractions/base" = pkgs.lib.mkAfter ''
     # Allow incusd to execute binaries from the Nix store (gzip, xz, zstd, etc.)

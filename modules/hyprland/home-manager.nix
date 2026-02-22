@@ -6,55 +6,106 @@
 }:
 
 let
-  hostname = osConfig.networking.hostName;
+  inherit (osConfig.modules.hyprland) profile;
+  waybarCommon = builtins.fromJSON (builtins.readFile ./waybar/common.json);
+  waybarHost = builtins.fromJSON (builtins.readFile ./waybar/${profile}.json);
+  waybarCommonStyle = builtins.readFile ./waybar/common.css;
+  waybarHostStyle = builtins.readFile ./waybar/${profile}.css;
 in
 {
   home.packages = with pkgs; [
     lxqt.lxqt-policykit
     wl-clipboard # for cliphist
     pamixer
-    pavucontrol
+    pwvucontrol
+    overskride
   ];
 
-  programs.chromium = {
-    enable = true;
-    package = pkgs.brave;
+  programs = {
+    chromium = {
+      enable = true;
+      package = pkgs.brave;
+    };
+
+    wofi = {
+      enable = true;
+      settings = {
+        show = "drun";
+        width = 750;
+        height = 400;
+        always_parse_args = true;
+        show_all = false;
+        print_command = true;
+        insensitive = true;
+        prompt = "Hmm, what do you want to run?";
+      };
+      style = builtins.readFile ./wofi.css;
+    };
+
+    waybar = {
+      enable = true;
+      settings = lib.recursiveUpdate waybarCommon waybarHost;
+      style = ''
+        ${waybarCommonStyle}
+
+        ${waybarHostStyle}
+      '';
+    };
   };
 
   home.sessionVariables = {
     BROWSER = "brave";
+    GTK_THEME = "Adwaita:dark";
   };
 
-  services.dunst.enable = true;
-
-  services.wpaperd = {
+  gtk = {
     enable = true;
-    settings = {
-      default = {
-        path = "${./wallpapers}";
-        duration = "30m";
-        apply-shadow = true;
-        sorting = "random";
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk";
+  };
+
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      gtk-theme = "Adwaita-dark";
+    };
+  };
+
+  services = {
+    dunst.enable = true;
+
+    wpaperd = {
+      enable = true;
+      settings = {
+        default = {
+          path = "${./wallpapers}";
+          duration = "30m";
+          apply-shadow = true;
+          sorting = "random";
+        };
       };
     };
-  };
 
-  programs.wofi = {
-    enable = true;
-    settings = {
-      show = "drun";
-      width = 750;
-      height = 400;
-      always_parse_args = true;
-      show_all = false;
-      print_command = true;
-      insensitive = true;
-      prompt = "Hmm, what do you want to run?";
+    copyq.enable = true;
+
+    flameshot = {
+      enable = true;
+      package = pkgs.flameshot.override { enableWlrSupport = true; };
     };
-    style = builtins.readFile ./wofi.css;
   };
-
-  services.copyq.enable = true;
 
   xdg.configFile."flameshot/flameshot.ini".text = ''
     [General]
@@ -64,6 +115,11 @@ in
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
+      env = [
+        "GTK_THEME,Adwaita:dark"
+        "GTK_APPLICATION_PREFER_DARK_THEME,1"
+      ];
+
       general = {
         gaps_in = 4;
         gaps_out = 8;
@@ -76,14 +132,14 @@ in
         rounding = 5;
         shadow = {
           enabled = true;
-          range = 12;
-          render_power = 3;
+          range = 10;
+          render_power = 2;
           color = "rgba(00000044)";
         };
         blur = {
           enabled = true;
-          size = 6;
-          passes = 2;
+          size = 4;
+          passes = 1;
         };
       };
 
@@ -101,23 +157,13 @@ in
       misc = {
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
+        vfr = true;
       };
     };
-    extraConfig = builtins.readFile ./hyprland/${hostname}.conf;
+    extraConfig = ''
+      ${builtins.readFile ./hyprland/common.conf}
+      ${builtins.readFile ./hyprland/${profile}.conf}
+    '';
   };
 
-  programs.zsh.initContent = lib.mkBefore ''
-    [[ "$(tty)" = "/dev/tty1" ]] && exec start-hyprland
-  '';
-
-  programs.waybar = {
-    enable = true;
-    settings = builtins.fromJSON (builtins.readFile ./waybar/${hostname}.json);
-    style = builtins.readFile ./waybar/${hostname}.css;
-  };
-
-  services.flameshot = {
-    enable = true;
-    package = pkgs.flameshot.override { enableWlrSupport = true; };
-  };
 }

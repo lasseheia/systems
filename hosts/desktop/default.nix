@@ -6,6 +6,8 @@
 }:
 
 {
+  modules.hyprland.profile = "desktop";
+
   imports = [
     inputs.sops-nix.nixosModules.sops
     ../../modules/nixos
@@ -31,4 +33,10 @@
     pkgs-unstable.sqlcmd
     pkgs-unstable.cura-appimage
   ];
+
+  zramSwap = {
+    enable = true;
+    memoryPercent = 25;
+    priority = 100;
+  };
 }

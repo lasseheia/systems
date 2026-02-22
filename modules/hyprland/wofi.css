@@ -1,45 +1,32 @@
-/* Latte Sky */
-@define-color accent #04a5e5;
-@define-color txt #4c4f69;
-@define-color bg #eff1f5;
-@define-color bg2 #bcc0cc;
+@define-color accent #6f94b6;
+@define-color text #d7dce5;
+@define-color subtext #aeb7c5;
+@define-color panel rgba(31, 35, 41, 0.84);
+@define-color panel-strong rgba(42, 47, 56, 0.9);
+@define-color stroke rgba(122, 133, 150, 0.3);
+@define-color selected rgba(111, 148, 182, 0.28);
 
 * {
-   font-family: 'JetBrains Mono Nerd Font', monospace;
+   font-family: "FiraCode Nerd Font", monospace;
    font-size: 14px;
 }
 
-/* Window */
 window {
    margin: 0px;
-   padding: 10px;
-   border: 3px solid @accent;
-   border-radius: 7px;
-   background-color: @bg;
-   animation: slideIn 0.5s ease-in-out both;
+   padding: 8px;
+   border: 1px solid @stroke;
+   border-radius: 14px;
+   background-color: @panel;
+   animation: fadeIn 140ms ease-out;
 }
 
-/* Slide In */
-@keyframes slideIn {
-   0% {
-      opacity: 0;
-   }
-
-   100% {
-      opacity: 1;
-   }
-}
-
-/* Inner Box */
 #inner-box {
-   margin: 5px;
-   padding: 10px;
+   margin: 0px;
+   padding: 6px;
    border: none;
-   background-color: @bg;
-   animation: fadeIn 0.5s ease-in-out both;
+   background-color: transparent;
 }
 
-/* Fade In */
 @keyframes fadeIn {
    0% {
       opacity: 0;
@@ -50,45 +37,58 @@ window {
    }
 }
 
-/* Outer Box */
 #outer-box {
-   margin: 5px;
-   padding: 10px;
+   margin: 0px;
+   padding: 0px;
    border: none;
-   background-color: @bg;
+   background-color: transparent;
 }
 
-/* Scroll */
 #scroll {
    margin: 0px;
-   padding: 10px;
+   padding: 0px;
    border: none;
 }
 
-/* Input */
 #input {
-   margin: 5px;
-   padding: 10px;
-   border: none;
+   margin: 0px 0px 8px 0px;
+   padding: 10px 12px;
+   border: 1px solid @stroke;
+   border-radius: 10px;
    color: @accent;
-   background-color: @bg2;
-   animation: fadeIn 0.5s ease-in-out both;
+   background-color: @panel-strong;
 }
 
-/* Text */
 #text {
-   margin: 5px;
-   padding: 10px;
+   margin: 0px;
+   padding: 8px 12px;
    border: none;
-   color: @txt;
-   animation: fadeIn 0.5s ease-in-out both;
+   color: @text;
 }
 
-/* Selected Entry */
+#entry {
+  margin: 2px 0px;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
 #entry:selected {
-  background-color: @accent;
+  background-color: @selected;
+  border: 1px solid rgba(111, 148, 182, 0.45);
 }
 
 #entry:selected #text {
-   color: @bg;
+   color: @text;
+}
+
+#text:selected {
+  color: @text;
+}
+
+#img {
+  margin-right: 10px;
+}
+
+#input {
+  caret-color: @accent;
 }

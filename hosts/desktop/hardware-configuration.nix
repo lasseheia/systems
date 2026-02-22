@@ -14,14 +14,16 @@
     inputs.disko.nixosModules.disko
   ];
 
-  boot.initrd.availableKernelModules = [
-    "nvme"
-    "xhci_pci"
-    "ahci"
-    "usbhid"
-  ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot = {
+    initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+    ];
+    initrd.kernelModules = [ "dm-snapshot" ];
+    kernelModules = [ "kvm-amd" ];
+  };
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
@@ -90,9 +92,13 @@
 
           "root/swap" = {
             type = "zfs_volume";
-            size = "10M";
+            size = "8G";
             content = {
               type = "swap";
+              mountOptions = [
+                "defaults"
+                "nofail"
+              ];
             };
             options = {
               volblocksize = "4096";

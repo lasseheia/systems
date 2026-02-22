@@ -64,9 +64,13 @@
           };
           "root/swap" = {
             type = "zfs_volume";
-            size = "2G";
+            size = "4G";
             content = {
               type = "swap";
+              mountOptions = [
+                "defaults"
+                "nofail"
+              ];
             };
             options = {
               volblocksize = "4096"; # Basic block size setting for swap

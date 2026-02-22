@@ -1,42 +1,19 @@
-* {
-  font-size: 12px;
-  font-family: monospace;
-  margin: 2px 10px;
-}
-
-window#waybar {
-  background: #32353B;
-  color: #ECEFF4;
-}
-
-#pulseaudio {
-  color: #4C7899;
-}
-
 #bluetooth {
-  color: #C991E1;
-}
-
-#memory {
-  color: #56B6C2;
-}
-
-#cpu {
-  color: #C678DD;
-}
-
-#disk.root {
-  color: #E5C07B;
-}
-
-#disk.home {
-  color: #D19A66;
+  color: #c991e1;
 }
 
 #battery {
-  color: #98C379;
+  color: #98c379;
+}
+
+#battery.warning {
+  color: #c9b07b;
+}
+
+#battery.critical {
+  color: #c97b87;
 }
 
 #backlight {
-  color: #ABB2BF;
+  color: #abb2bf;
 }
