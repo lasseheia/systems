@@ -1,4 +1,21 @@
-theme "catppuccin-frappe"
+themes {
+    material-muted {
+        fg "#d7dce5"
+        bg "#16181a"
+        black "#16181a"
+        red "#c97b87"
+        green "#7fa766"
+        yellow "#c9b07b"
+        blue "#6f94b6"
+        magenta "#9d88bf"
+        cyan "#5f9ea8"
+        white "#b8c0cc"
+        orange "#c99a6b"
+    }
+}
+
+theme "material-muted"
+show_startup_tips false
 
 pane_frames false
 

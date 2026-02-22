@@ -85,6 +85,35 @@
             style = "Regular";
           };
         };
+        colors = {
+          primary = {
+            foreground = "0xd7dce5";
+          };
+          cursor = {
+            text = "0x16181a";
+            cursor = "0x6f94b6";
+          };
+          normal = {
+            black = "0x1f2329";
+            red = "0xc97b87";
+            green = "0x7fa766";
+            yellow = "0xc9b07b";
+            blue = "0x6f94b6";
+            magenta = "0x9d88bf";
+            cyan = "0x5f9ea8";
+            white = "0xb8c0cc";
+          };
+          bright = {
+            black = "0x3c434f";
+            red = "0xd28a95";
+            green = "0x8ab375";
+            yellow = "0xd4bc8a";
+            blue = "0x7ea1c4";
+            magenta = "0xaa98c8";
+            cyan = "0x6fadb6";
+            white = "0xd7dce5";
+          };
+        };
       };
     };
 
