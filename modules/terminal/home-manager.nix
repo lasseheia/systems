@@ -131,12 +131,85 @@ in
       enableZshIntegration = true;
       settings = {
         add_newline = false;
+        palette = "muted";
+        format = "$directory$git_branch$git_state$git_status$nix_shell$kubernetes$azure$cmd_duration$line_break$character";
+        command_timeout = 1500;
+
+        palettes.muted = {
+          rose = "#c97b87";
+          pine = "#7fa766";
+          foam = "#5f9ea8";
+          iris = "#9d88bf";
+          text = "#d7dce5";
+          subtle = "#7a8596";
+          base = "#1f2329";
+        };
+
+        character = {
+          success_symbol = "[>](bold pine)";
+          error_symbol = "[>](bold rose)";
+          vimcmd_symbol = "[<](bold iris)";
+        };
+
+        directory = {
+          truncation_length = 5;
+          truncation_symbol = ".../";
+          truncate_to_repo = false;
+          fish_style_pwd_dir_length = 2;
+          read_only = " ro";
+          style = "bold foam";
+          read_only_style = "rose";
+        };
+
+        git_branch = {
+          symbol = "git:";
+          format = " [($symbol$branch)]($style)";
+          style = "iris";
+        };
+
+        git_state = {
+          format = " [($state( $progress_current/$progress_total))]($style)";
+          style = "rose";
+        };
+
+        git_status = {
+          style = "rose";
+          format = " [($all_status$ahead_behind)]($style)";
+          conflicted = "=";
+          ahead = "^";
+          behind = "v";
+          diverged = "<>";
+          untracked = "?";
+          stashed = "\\$";
+          modified = "!";
+          staged = "+";
+          renamed = ">";
+          deleted = "x";
+        };
+
+        cmd_duration = {
+          min_time = 800;
+          format = " [took $duration]($style)";
+          style = "subtle";
+        };
+
+        nix_shell = {
+          symbol = "nix";
+          format = " [($symbol $name)]($style)";
+          style = "pine";
+        };
+
         azure = {
           disabled = false;
+          format = " [(az:$subscription)]($style)";
+          style = "subtle";
         };
+
         kubernetes = {
           disabled = false;
-          symbol = "⎈ ";
+          symbol = "k8s:";
+          format = " [( $symbol$context(::$namespace))]($style)";
+          style = "subtle";
         };
       };
     };
