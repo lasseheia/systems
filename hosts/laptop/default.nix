@@ -1,4 +1,9 @@
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   modules.hyprland.profile = "laptop";
@@ -43,6 +48,9 @@
   };
 
   security.polkit.enable = true;
+
+  boot.kernelParams = [ "noresume" ];
+  swapDevices = lib.mkForce [ ];
 
   zramSwap = {
     enable = true;
