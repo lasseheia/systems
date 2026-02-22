@@ -21,7 +21,7 @@
     vimAlias = true;
     vimdiffAlias = true;
     extraConfig = builtins.readFile ./vimrc;
-    extraLuaConfig = builtins.readFile ./init.lua;
+    initLua = builtins.readFile ./init.lua;
     plugins =
       let
         cmp = [
@@ -64,6 +64,9 @@
           plugin = pkgs.vimPlugins.copilot-vim;
           type = "lua";
           config = builtins.readFile ./plugins/copilot-vim.lua;
+        }
+        {
+          plugin = pkgs.vimPlugins.nvim-web-devicons;
         }
         {
           plugin = pkgs.vimPlugins.nvim-tree-lua;
