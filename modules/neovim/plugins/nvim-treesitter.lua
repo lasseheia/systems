@@ -6,6 +6,10 @@ if not ok then
 end
 
 configs.setup {
+  ensure_installed = {
+    'c_sharp',
+  },
+  auto_install = false,
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,

@@ -1,5 +1,11 @@
 vim.keymap.set('n', '<C-s>', '<cmd>NvimTreeToggle<CR>', { noremap = true, silent = true })
 
+local function run_in_split(cmd)
+  vim.cmd('botright split')
+  vim.cmd('resize 12')
+  vim.cmd('terminal ' .. cmd)
+end
+
 local telescope_ok, builtin = pcall(require, 'telescope.builtin')
 if telescope_ok then
   vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
@@ -13,6 +19,18 @@ if telescope_ok then
   vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
   vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 end
+
+vim.keymap.set('n', '<leader>db', function()
+  run_in_split('dotnet build')
+end, { desc = 'Dotnet build' })
+
+vim.keymap.set('n', '<leader>dt', function()
+  run_in_split('dotnet test')
+end, { desc = 'Dotnet test' })
+
+vim.keymap.set('n', '<leader>dr', function()
+  run_in_split('dotnet run')
+end, { desc = 'Dotnet run' })
 
 local spectre_ok, spectre = pcall(require, 'spectre')
 if spectre_ok then
