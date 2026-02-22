@@ -6,6 +6,39 @@
   "nix": {
     "enabled": true
   },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^pkgs/zjstatus-plugin/default\\.nix$"
+      ],
+      "matchStrings": [
+        "url = \\\"https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>v[^\\\"]+)/zjstatus\\.wasm\\\";\\n\\s*hash = \\\"(?<currentDigest>[^\\\"]+)\\\";"
+      ],
+      "datasourceTemplate": "github-releases"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "dj95/zjstatus"
+      ],
+      "versioning": "semver",
+      "extractVersion": "^v(?<version>.*)$",
+      "postUpgradeTasks": {
+        "commands": [
+          "bash -lc 'URL=\"https://github.com/dj95/zjstatus/releases/download/{{{newValue}}}/zjstatus.wasm\"; HASH=$(nix hash to-sri --type sha256 \"$(nix-prefetch-url --type sha256 \"$URL\")\"); sed -i -E \"s#hash = \\\"[^\\\"]+\\\";#hash = \\\"$HASH\\\";#\" pkgs/zjstatus-plugin/default.nix'"
+        ],
+        "fileFilters": [
+          "pkgs/zjstatus-plugin/default.nix"
+        ],
+        "executionMode": "update"
+      }
+    }
+  ],
   "lockFileMaintenance": {
     "enabled": true
   }

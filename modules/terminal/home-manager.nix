@@ -1,5 +1,8 @@
 { pkgs, ... }:
 
+let
+  customPkgs = pkgs.callPackage ../../pkgs { };
+in
 {
   home.packages = [
     pkgs.htop
@@ -18,6 +21,9 @@
   xdg.configFile."zellij/config.kdl" = {
     source = ./zellij.kdl;
   };
+
+  xdg.configFile."zellij/plugins/zjstatus.wasm".source =
+    "${customPkgs.zjstatusPlugin}/share/zellij/plugins/zjstatus.wasm";
 
   xdg.configFile."opencode/AGENTS.md".text = ''
     # Personal OpenCode Rules
