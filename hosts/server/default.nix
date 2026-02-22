@@ -1,5 +1,4 @@
 {
-  config,
   inputs,
   lib,
   pkgs,
@@ -42,7 +41,6 @@ in
 
   imports = [
     inputs.home-manager.nixosModules.default
-    inputs.sops-nix.nixosModules.sops
     ./incus/nixos
     ../../modules/terminal
     ../../modules/hyprland
@@ -95,13 +93,7 @@ in
     settings.KbdInteractiveAuthentication = false;
   };
 
-  sops = {
-    defaultSopsFile = ./secrets.yaml;
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-    secrets.lasse-password.neededForUsers = true;
-  };
-
-  users.mutableUsers = false;
+  users.mutableUsers = true;
   users.users = {
     root = {
       isNormalUser = false;
@@ -110,7 +102,6 @@ in
     lasse = {
       isNormalUser = true;
       home = "/home/lasse";
-      hashedPasswordFile = config.sops.secrets.lasse-password.path;
       openssh.authorizedKeys.keys = ssh_keys;
       extraGroups = [
         "wheel"
