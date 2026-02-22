@@ -2,6 +2,17 @@ name: Renovate
 
 on:
   workflow_dispatch:
+    inputs:
+      logLevel:
+        description: Renovate log level
+        type: choice
+        required: false
+        default: info
+        options:
+          - debug
+          - info
+          - warn
+          - error
   schedule:
     - cron: "0 3 * * *"
 
@@ -13,7 +24,6 @@ permissions:
 jobs:
   renovate:
     name: Run Renovate
-    if: ${{ secrets.RENOVATE_APP_ID != '' && secrets.RENOVATE_APP_PRIVATE_KEY != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -21,7 +31,7 @@ jobs:
 
       - name: Generate GitHub App token
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@d72941d797fd3113feb6b93fd0dec494b13a2547 # v1
         with:
           app-id: ${{ secrets.RENOVATE_APP_ID }}
           private-key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
@@ -33,7 +43,7 @@ jobs:
 
       - name: Run Renovate
         env:
-          LOG_LEVEL: info
+          LOG_LEVEL: ${{ github.event.inputs.logLevel || 'info' }}
           RENOVATE_TOKEN: ${{ steps.app-token.outputs.token }}
           RENOVATE_REPOSITORIES: ${{ github.repository }}
         run: nix run nixpkgs#renovate -- --allowed-commands='["bash -lc .*"]'
