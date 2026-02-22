@@ -38,7 +38,7 @@ jobs:
         run: |
           nixpkgs_keys=$(jq --raw-output '.nodes.root.inputs | keys | join(",")' flake.lock)
           echo "Extracted nixpkgs keys: $nixpkgs_keys"
-          echo "nixpkgs_keys=$nixpkgs_keys" >> $GITHUB_OUTPUT
+          echo "nixpkgs_keys=$nixpkgs_keys" >> "$GITHUB_OUTPUT"
 
       - name: Check Nix flake inputs
         uses: DeterminateSystems/flake-checker-action@3164002371bc90729c68af0e24d5aacf20d7c9f6 # v12
@@ -65,7 +65,7 @@ jobs:
             echo '```bash'
             nix flake check --all-systems 2>&1
             echo '```'
-          } | tee -a $GITHUB_STEP_SUMMARY
+          } | tee -a "$GITHUB_STEP_SUMMARY"
 
   nix-lint:
     name: Nix Lint
@@ -80,3 +80,26 @@ jobs:
 
       - name: Install nix-linter
         run: nix run github:nix-community/nixpkgs-lint -- .
+
+  nix-static-checks:
+    name: Nix Static Checks
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a # v21
+
+      - name: Run deadnix
+        run: nix run nixpkgs#deadnix -- .
+
+      - name: Run statix
+        run: nix run nixpkgs#statix -- check .
+
+      - name: Check nix formatting
+        run: |
+          if git ls-files -- '*.nix' | grep -q .; then
+            git ls-files -z '*.nix' | xargs -0 nix run nixpkgs#nixfmt-rfc-style -- --check
+          fi
