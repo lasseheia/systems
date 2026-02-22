@@ -6,7 +6,7 @@ stdenvNoCC.mkDerivation {
 
   src = fetchurl {
     url = "https://github.com/dj95/zjstatus/releases/download/v0.22.0/zjstatus.wasm";
-    hash = "sha256-TeQm0gscv4YScuknrutbSdksF/Diu50XP4W/fwFU3VM=";
+    hash = "9a4b88fdceee8eb2b8c28111c53e94254d61c994";
   };
 
   dontUnpack = true;
