@@ -28,7 +28,7 @@
 
               # Pre-commit hooks
               pre-commit
-              nixfmt-rfc-style
+              nixfmt
               deadnix
               statix
               opentofu

@@ -30,7 +30,7 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a # v21
 
       - name: Install jq via Nix
-        run: nix profile install nixpkgs#jq
+        run: nix profile add nixpkgs#jq
 
       - name: Extract nixpkgs keys from flake.lock
         id: extract-keys
@@ -101,5 +101,5 @@ jobs:
       - name: Check nix formatting
         run: |
           if git ls-files -- '*.nix' | grep -q .; then
-            git ls-files -z '*.nix' | xargs -0 nix run nixpkgs#nixfmt-rfc-style -- --check
+            git ls-files -z '*.nix' | xargs -0 nix run nixpkgs#nixfmt -- --check
           fi
