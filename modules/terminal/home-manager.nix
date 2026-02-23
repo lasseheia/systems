@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
   customPkgs = pkgs.callPackage ../../pkgs { };
@@ -7,6 +7,8 @@ in
   home.packages = [
     pkgs.htop
     pkgs.kubectl
+    pkgs.kustomize
+    pkgs.kubeconform
     pkgs.jq
     pkgs.yq-go
     pkgs.yarn
@@ -16,7 +18,13 @@ in
     pkgs.nerd-fonts.droid-sans-mono
     pkgs.nerd-fonts.hack
     pkgs.nerd-fonts.sauce-code-pro
+    pkgs.taskwarrior2
   ];
+
+  home.sessionVariables = {
+    TASKRC = "${config.xdg.configHome}/task/taskrc";
+    TASKDATA = "${config.xdg.dataHome}/task";
+  };
 
   xdg = {
     configFile = {
@@ -46,6 +54,13 @@ in
           };
         };
       };
+
+      "task/taskrc".text = ''
+        news.version=3
+        data.location=${config.xdg.dataHome}/task
+        dateformat=Y-M-D
+        weekstart=monday
+      '';
     };
   };
 

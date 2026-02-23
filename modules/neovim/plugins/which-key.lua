@@ -11,5 +11,7 @@ which_key.add {
   { '<leader>e', group = 'Edit' },
   { '<leader>d', group = 'Dotnet' },
   { '<leader>n', group = 'Nix' },
+  { '<leader>k', group = 'Kubernetes' },
+  { '<leader>x', group = 'Diagnostics' },
   { '<leader>?', '<cmd>WhichKey<CR>', desc = 'Show keymaps' },
 }

@@ -7,7 +7,7 @@
     pkgs.fd # For nvim-telescope
     pkgs.tree-sitter # For nvim-treesitter
     pkgs.dotnet-sdk # For .NET development
-    pkgs.omnisharp-roslyn # For C# LSP
+    pkgs.roslyn-ls # For C# LSP
     pkgs.netcoredbg # For .NET debugging
     pkgs.gcc # For nvim-lspconfig
     pkgs.typescript # For nvim-lspconfig
@@ -74,6 +74,7 @@
           pkgs.vimPlugins.cmp-vsnip
           pkgs.vimPlugins.vim-vsnip
           pkgs.vimPlugins.markdown-preview-nvim
+          pkgs.vimPlugins.nvim-lint
         ];
       in
       corePlugins

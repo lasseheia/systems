@@ -6,6 +6,21 @@ local function run_in_split(cmd)
   vim.cmd('terminal ' .. cmd)
 end
 
+local function current_file_path()
+  if vim.bo.buftype ~= '' then
+    vim.notify('Current buffer is not a file', vim.log.levels.WARN)
+    return nil
+  end
+
+  local path = vim.fn.expand('%:p')
+  if path == '' then
+    vim.notify('No file path for current buffer', vim.log.levels.WARN)
+    return nil
+  end
+
+  return path
+end
+
 local telescope_ok, builtin = pcall(require, 'telescope.builtin')
 if telescope_ok then
   vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
@@ -20,6 +35,11 @@ if telescope_ok then
   vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 end
 
+vim.keymap.set('n', '<leader>xx', vim.diagnostic.open_float, { desc = 'Show diagnostics on cursor' })
+vim.keymap.set('n', '<leader>xq', vim.diagnostic.setloclist, { desc = 'Populate diagnostics list' })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
+
 vim.keymap.set('n', '<leader>db', function()
   run_in_split('dotnet build')
 end, { desc = 'Dotnet build' })
@@ -33,8 +53,13 @@ vim.keymap.set('n', '<leader>dr', function()
 end, { desc = 'Dotnet run' })
 
 vim.keymap.set('n', '<leader>nf', function()
+  local path = current_file_path()
+  if not path then
+    return
+  end
+
   vim.cmd('write')
-  run_in_split('alejandra ' .. vim.fn.shellescape(vim.fn.expand('%:p')))
+  run_in_split('alejandra ' .. vim.fn.shellescape(path))
 end, { desc = 'Format Nix file' })
 
 vim.keymap.set('n', '<leader>ns', function()
@@ -44,6 +69,26 @@ end, { desc = 'Statix check' })
 vim.keymap.set('n', '<leader>nd', function()
   run_in_split('deadnix .')
 end, { desc = 'Deadnix check' })
+
+vim.keymap.set('n', '<leader>kv', function()
+  local path = current_file_path()
+  if not path then
+    return
+  end
+
+  vim.cmd('write')
+  run_in_split('kubeconform -strict -summary -ignore-missing-schemas ' .. vim.fn.shellescape(path))
+end, { desc = 'Validate current YAML (kubeconform)' })
+
+vim.keymap.set('n', '<leader>kk', function()
+  local path = current_file_path()
+  if not path then
+    return
+  end
+
+  vim.cmd('write')
+  run_in_split('kubectl kustomize ' .. vim.fn.shellescape(vim.fn.fnamemodify(path, ':h')) .. ' | kubeconform -strict -summary -ignore-missing-schemas -')
+end, { desc = 'Validate kustomize output' })
 
 local spectre_ok, spectre = pcall(require, 'spectre')
 if spectre_ok then
