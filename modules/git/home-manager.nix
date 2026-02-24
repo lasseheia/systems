@@ -2,10 +2,36 @@
   programs = {
     git = {
       enable = true;
+      includes = [
+        {
+          condition = "hasconfig:remote.*.url:https://github.com/**";
+          contents.user.email = "23742718+lasseheia@users.noreply.github.com";
+        }
+        {
+          condition = "hasconfig:remote.*.url:git@github.com:**";
+          contents.user.email = "23742718+lasseheia@users.noreply.github.com";
+        }
+        {
+          condition = "hasconfig:remote.*.url:ssh://git@github.com/**";
+          contents.user.email = "23742718+lasseheia@users.noreply.github.com";
+        }
+        {
+          condition = "hasconfig:remote.*.url:https://gitlab.com/**";
+          contents.user.email = "32639578-lasseheia@users.noreply.gitlab.com";
+        }
+        {
+          condition = "hasconfig:remote.*.url:git@gitlab.com:**";
+          contents.user.email = "32639578-lasseheia@users.noreply.gitlab.com";
+        }
+        {
+          condition = "hasconfig:remote.*.url:ssh://git@gitlab.com/**";
+          contents.user.email = "32639578-lasseheia@users.noreply.gitlab.com";
+        }
+      ];
       settings = {
         user = {
           name = "Lasse Heia";
-          email = "23742718+lasseheia@users.noreply.github.com";
+          email = "32639578-lasseheia@users.noreply.gitlab.com";
           signingkey = "~/.ssh/id_ed25519.pub";
         };
         pull.rebase = true;
