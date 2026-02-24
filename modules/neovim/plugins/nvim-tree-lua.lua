@@ -41,6 +41,15 @@ nvim_tree.setup {
 vim.api.nvim_create_autocmd('VimEnter', {
   once = true,
   callback = function()
+    if vim.fn.argc() ~= 1 then
+      return
+    end
+
+    local arg = vim.fn.argv(0)
+    if vim.fn.isdirectory(arg) ~= 1 then
+      return
+    end
+
     local api_ok, api = pcall(require, 'nvim-tree.api')
     if api_ok then
       api.tree.open()
