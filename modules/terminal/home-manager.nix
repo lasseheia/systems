@@ -56,6 +56,11 @@ in
         };
       };
 
+      "direnv/direnv.toml".text = ''
+        [global]
+        hide_env_diff = true
+      '';
+
       "task/taskrc".text = ''
         news.version=3
         data.location=${config.xdg.dataHome}/task
