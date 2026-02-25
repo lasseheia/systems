@@ -40,13 +40,19 @@ nvim_tree.setup {
 
 vim.api.nvim_create_autocmd('VimEnter', {
   once = true,
-  callback = function()
-    if vim.fn.argc() ~= 1 then
-      return
+  callback = function(data)
+    local argc = vim.fn.argc()
+    local should_open = false
+
+    if argc == 0 and data.file == '' then
+      local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
+      should_open = vim.v.shell_error == 0 and git_root == vim.loop.cwd()
+    elseif argc == 1 then
+      local arg = vim.fn.argv(0)
+      should_open = vim.fn.isdirectory(arg) == 1
     end
 
-    local arg = vim.fn.argv(0)
-    if vim.fn.isdirectory(arg) ~= 1 then
+    if not should_open then
       return
     end
 
