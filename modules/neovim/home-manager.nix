@@ -6,7 +6,7 @@
     pkgs.ripgrep # For nvim-telescope and nvim-spectre
     pkgs.fd # For nvim-telescope
     pkgs.tree-sitter # For nvim-treesitter
-    pkgs.dotnet-sdk # For .NET development
+    pkgs.dotnetCorePackages.sdk_10_0-bin # For .NET development
     pkgs.roslyn-ls # For C# LSP
     pkgs.netcoredbg # For .NET debugging
     pkgs.gcc # For nvim-lspconfig
