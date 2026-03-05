@@ -62,8 +62,18 @@ in
 
   environment.systemPackages = with pkgs; [
     podman
+    glab
     dockerShim
+    azure-cli
+    kubectl
+    kubelogin
+    kargo
     alacritty
+    rectangle
+    terraform
+    terraform-ls
+    pre-commit
+    dotnet-ef
   ];
 
   home-manager = {
