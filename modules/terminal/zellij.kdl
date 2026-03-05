@@ -77,7 +77,7 @@ keybinds  {
 
       // SESSION
       unbind "Ctrl o"
-      bind "Alt s" { SwitchToMode "Session"; }
+      bind "Alt o" { SwitchToMode "Session"; }
 
       // QUIT
       unbind "Ctrl q"
@@ -86,6 +86,9 @@ keybinds  {
       // SEARCH
       unbind "Ctrl s"
       bind "Alt f" { SwitchToMode "Search"; }
+
+      // SCROLL
+      bind "Alt s" { SwitchToMode "Scroll"; }
 
       // NEW PANES
       unbind "Ctrl |"
