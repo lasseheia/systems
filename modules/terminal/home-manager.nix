@@ -47,7 +47,7 @@ in
         - Never run `git push`.
         - Only create commits when I explicitly ask for it.
         - Show the `git diff` before creating a commit.
-        - Never combine unrelated changes in one commit; split commits by concern.
+        - Never combine unrelated changes in one commit; split commits by concern, even when changes are in the same file or module.
       '';
 
       "opencode/opencode.json".text = builtins.toJSON {
