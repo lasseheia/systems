@@ -19,6 +19,7 @@ in
     pkgs.nerd-fonts.hack
     pkgs.nerd-fonts.sauce-code-pro
     pkgs.taskwarrior2
+    pkgs.argocd
   ];
 
   home.sessionVariables = {
