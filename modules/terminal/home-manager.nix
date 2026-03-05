@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   customPkgs = pkgs.callPackage ../../pkgs { };
@@ -70,6 +75,20 @@ in
       '';
     };
   };
+
+  home.activation.opencodeHeaderDefault = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    state_dir="${config.xdg.stateHome}/opencode"
+    kv_file="$state_dir/kv.json"
+    mkdir -p "$state_dir"
+
+    if [ -f "$kv_file" ]; then
+      tmp_file="$(mktemp)"
+      ${pkgs.jq}/bin/jq '. + {"header_visible": false}' "$kv_file" > "$tmp_file"
+      mv "$tmp_file" "$kv_file"
+    else
+      printf '{"header_visible":false}\n' > "$kv_file"
+    fi
+  '';
 
   programs = {
 
