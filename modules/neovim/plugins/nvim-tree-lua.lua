@@ -45,8 +45,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
     local should_open = false
 
     if argc == 0 and data.file == '' then
-      local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
-      should_open = vim.v.shell_error == 0 and git_root == vim.loop.cwd()
+      should_open = true
     elseif argc == 1 then
       local arg = vim.fn.argv(0)
       should_open = vim.fn.isdirectory(arg) == 1
