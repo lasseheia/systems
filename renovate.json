@@ -21,6 +21,17 @@
   "packageRules": [
     {
       "matchManagers": [
+        "nix"
+      ],
+      "matchFileNames": [
+        "**/flake.lock"
+      ],
+      "automerge": true,
+      "automergeType": "branch",
+      "platformAutomerge": false
+    },
+    {
+      "matchManagers": [
         "custom.regex"
       ],
       "matchPackageNames": [
