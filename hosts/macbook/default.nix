@@ -35,22 +35,23 @@ in
     settings.experimental-features = "nix-command flakes";
   };
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [
-    (final: prev: {
-      argocd = prev.argocd.overrideAttrs (old: {
-        ui = old.ui.overrideAttrs (_: {
-          offlineCache = prev.fetchYarnDeps {
-            yarnLock = "${old.src}/ui/yarn.lock";
-            hash = "sha256-kqBolkQiwZUBic0f+Ek5HwYsOmro1+FStkDLXAre79o=";
-          };
+  nixpkgs = {
+    config.allowUnfree = true;
+    overlays = [
+      (final: prev: {
+        argocd = prev.argocd.overrideAttrs (old: {
+          ui = old.ui.overrideAttrs (_: {
+            offlineCache = prev.fetchYarnDeps {
+              yarnLock = "${old.src}/ui/yarn.lock";
+              hash = "sha256-kqBolkQiwZUBic0f+Ek5HwYsOmro1+FStkDLXAre79o=";
+            };
+          });
         });
-      });
-    })
-  ];
-
-  nixpkgs.hostPlatform = {
-    system = "aarch64-darwin";
+      })
+    ];
+    hostPlatform = {
+      system = "aarch64-darwin";
+    };
   };
 
   programs.zsh.enable = true;
