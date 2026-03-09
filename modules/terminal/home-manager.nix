@@ -9,27 +9,43 @@ let
   customPkgs = pkgs.callPackage ../../pkgs { };
 in
 {
-  home.packages = [
-    pkgs.htop
-    pkgs.kubectl
-    pkgs.kustomize
-    pkgs.kubeconform
-    pkgs.jq
-    pkgs.yq-go
-    pkgs.yarn
-    pkgs.ipcalc
-    pkgs.killall
-    pkgs.nerd-fonts.fira-code
-    pkgs.nerd-fonts.droid-sans-mono
-    pkgs.nerd-fonts.hack
-    pkgs.nerd-fonts.sauce-code-pro
-    pkgs.taskwarrior2
-    pkgs.argocd
-  ];
+  home = {
+    packages = [
+      pkgs.htop
+      pkgs.kubectl
+      pkgs.kustomize
+      pkgs.kubeconform
+      pkgs.jq
+      pkgs.yq-go
+      pkgs.yarn
+      pkgs.ipcalc
+      pkgs.killall
+      pkgs.nerd-fonts.fira-code
+      pkgs.nerd-fonts.droid-sans-mono
+      pkgs.nerd-fonts.hack
+      pkgs.nerd-fonts.sauce-code-pro
+      pkgs.taskwarrior2
+      pkgs.argocd
+    ];
 
-  home.sessionVariables = {
-    TASKRC = "${config.xdg.configHome}/task/taskrc";
-    TASKDATA = "${config.xdg.dataHome}/task";
+    sessionVariables = {
+      TASKRC = "${config.xdg.configHome}/task/taskrc";
+      TASKDATA = "${config.xdg.dataHome}/task";
+    };
+
+    activation.opencodeHeaderDefault = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      state_dir="${config.xdg.stateHome}/opencode"
+      kv_file="$state_dir/kv.json"
+      mkdir -p "$state_dir"
+
+      if [ -f "$kv_file" ]; then
+        tmp_file="$(mktemp)"
+        ${pkgs.jq}/bin/jq '. + {"header_visible": false}' "$kv_file" > "$tmp_file"
+        mv "$tmp_file" "$kv_file"
+      else
+        printf '{"header_visible":false}\n' > "$kv_file"
+      fi
+    '';
   };
 
   xdg = {
@@ -75,20 +91,6 @@ in
       '';
     };
   };
-
-  home.activation.opencodeHeaderDefault = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    state_dir="${config.xdg.stateHome}/opencode"
-    kv_file="$state_dir/kv.json"
-    mkdir -p "$state_dir"
-
-    if [ -f "$kv_file" ]; then
-      tmp_file="$(mktemp)"
-      ${pkgs.jq}/bin/jq '. + {"header_visible": false}' "$kv_file" > "$tmp_file"
-      mv "$tmp_file" "$kv_file"
-    else
-      printf '{"header_visible":false}\n' > "$kv_file"
-    fi
-  '';
 
   programs = {
 
