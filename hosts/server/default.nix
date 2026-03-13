@@ -6,35 +6,16 @@
 }:
 let
   ssh_keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH8V+W2mKUj8QpWJe5N8Z6zrekUISHwdXy6vp4nkte4l" ];
-  opencodeSnapshotCleanup = pkgs.writeShellScript "opencode-snapshot-cleanup" ''
-    set -eu
+  opencodeSnapshotCleanup = pkgs.writeShellScript "opencode-snapshot-cleanup" (
+    builtins.readFile ./scripts/opencode-snapshot-cleanup.sh
+  );
 
-    SNAPSHOT_DIR="$HOME/.local/share/opencode/snapshot"
-    MAX_BYTES=$((10 * 1024 * 1024 * 1024))
-    RETAIN_DAYS=14
-
-    if [ ! -d "$SNAPSHOT_DIR" ]; then
-      exit 0
-    fi
-
-    find "$SNAPSHOT_DIR" -type f \( -name 'tmp_pack_*' -o -name '.tmp-*-pack-*' \) -delete
-    find "$SNAPSHOT_DIR" -mindepth 1 -maxdepth 1 -type d -mtime "+$RETAIN_DAYS" -exec rm -rf {} +
-
-    current_bytes="$(du -sb "$SNAPSHOT_DIR" | cut -f1)"
-    if [ "$current_bytes" -gt "$MAX_BYTES" ]; then
-      rm -rf "$SNAPSHOT_DIR"/* "$SNAPSHOT_DIR"/.[!.]* "$SNAPSHOT_DIR"/..?* 2>/dev/null || true
-    fi
-  '';
-
-  opencodeLimited = pkgs.writeShellScriptBin "opencode-limited" ''
-    exec ${pkgs.systemd}/bin/systemd-run \
-      --user \
-      --scope \
-      --collect \
-      --quiet \
-      -p CPUQuota=150% \
-      ${pkgs.coreutils}/bin/nice -n 10 ${pkgs.opencode}/bin/opencode "$@"
-  '';
+  opencodeLimited = pkgs.writeShellScriptBin "opencode-limited" (
+    lib.replaceStrings
+      [ "@SYSTEMD@" "@COREUTILS@" "@OPENCODE@" ]
+      [ "${pkgs.systemd}" "${pkgs.coreutils}" "${pkgs.opencode}" ]
+      (builtins.readFile ./scripts/opencode-limited.sh)
+  );
 in
 {
   modules.hyprland.profile = "server";
