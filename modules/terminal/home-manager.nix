@@ -62,8 +62,11 @@ in
 
         - Never run `git push`.
         - Only create commits when I explicitly ask for it.
-        - Show the `git diff` before creating a commit.
-        - Never combine unrelated changes in one commit; split commits by concern, even when changes are in the same file or module.
+        - Keep commits atomic by intent; never combine unrelated changes in one commit, even when changes are in the same file or module.
+        - Ensure commit messages clearly describe both what changed and why it was done.
+        - Before any amend/rebase/revert workflow, check whether the affected commit(s) are already pushed (e.g. via `git status -sb` and upstream checks).
+        - If commits are already pushed, avoid history-rewriting operations unless I explicitly ask for it; prefer a new follow-up commit.
+        - If commits are not pushed and I asked for the outcome, prefer amend/rebase/revert workflows to keep history clean.
       '';
 
       "opencode/opencode.json".text = builtins.toJSON {
@@ -75,8 +78,14 @@ in
             "git commit *" = "ask";
             "git push *" = "deny";
           };
+          skill = {
+            "*" = "allow";
+          };
         };
       };
+
+      "opencode/skills/git-commit-preferences/SKILL.md".source =
+        ./opencode/skills/git-commit-preferences/SKILL.md;
 
       "direnv/direnv.toml".text = ''
         [global]
