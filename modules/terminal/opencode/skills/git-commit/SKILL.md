@@ -11,32 +11,40 @@ Keep git commits aligned with my preferred workflow.
 
 - Never run `git push`.
 - Only create commits when I explicitly ask for it.
-- Keep commits atomic by intent; never combine unrelated changes in one commit.
 - Every commit message should clearly explain both what changed and why.
 
-## Atomic commit policy (strict)
+## Commit policy
 
-A commit is atomic only if it contains exactly one intent.
+- Every commit MUST contain exactly one intent.
+- If changes include multiple intents, I MUST split into multiple commits.
+- I should do this automatically without asking, unless the user explicitly asks for a single combined commit.
 
-Do not mix these intent categories in one commit:
-- behavior/feature changes
+## Intent grouping rules (strict)
+
+Do NOT combine these in one commit:
+- feature or behavior changes
 - bug fixes
 - refactors (no behavior change)
-- config/metadata changes
-- tooling/workflow changes (CI, lint, hooks)
+- configuration or metadata changes
+- tooling or workflow changes (CI, lint, hooks, scripts)
 - formatting-only changes
+- tests-only changes
 - docs/content-only changes
 
 If changes span multiple categories, split them into separate commits, even when the same file is involved.
 
-## Required pre-commit classification
+## Required workflow (every commit task)
 
-Before each commit:
-1. Run `git status --short`.
-2. Review changed files/hunks and classify each by intent.
-3. Stage only one intent category.
-4. If a file contains mixed intents, use partial staging (`git add -p`).
-5. Commit that single intent, then repeat for remaining intents.
+1. Run `git status --short` and `git diff` to classify all changes by intent.
+2. Produce an internal commit plan with one intent per commit and file/hunk mapping.
+3. Stage only one intent (use partial staging when needed).
+4. Commit.
+5. Repeat until all requested changes are committed.
+6. Print a final report with:
+   - commit hash
+   - subject
+   - files included
+   - remaining uncommitted files (if any)
 
 ## Commit message rule
 
@@ -45,12 +53,9 @@ Each commit message must describe one intent only:
 - Body: why it was needed
 - If the message needs "and" to describe multiple different intents, split the commit.
 
-## Commit workflow
-
-1. Classify changes by intent and split staging accordingly.
-2. Draft a concise message that states both what changed and why.
-3. Create commit only after explicit request.
-4. Verify with `git status` after commit.
+If one file contains multiple intents:
+- Use `git add -p` and split by hunk.
+- If hunk split is impossible, make the smallest safe split and explain why.
 
 ## Safety
 
