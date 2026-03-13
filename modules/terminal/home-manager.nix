@@ -5,6 +5,9 @@
 
 let
   customPkgs = pkgs.callPackage ../../pkgs { };
+  opencodeSettings = builtins.removeAttrs (builtins.fromJSON (
+    builtins.readFile ./opencode/opencode.json
+  )) [ "$schema" ];
 in
 {
   home = {
@@ -37,8 +40,6 @@ in
         "${customPkgs.zjstatusPlugin}/share/zellij/plugins/zjstatus.wasm";
 
       "opencode/AGENTS.md".source = ./opencode/AGENTS.md;
-
-      "opencode/opencode.json".source = ./opencode/opencode.json;
 
       "opencode/skills/git-commit/SKILL.md".source = ./opencode/skills/git-commit/SKILL.md;
 
@@ -230,7 +231,9 @@ in
 
     opencode = {
       enable = true;
-      settings.theme = "transparent";
+      settings = opencodeSettings // {
+        theme = "transparent";
+      };
       themes.transparent = ./opencode-transparent-theme.json;
     };
   };
