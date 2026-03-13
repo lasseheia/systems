@@ -1,10 +1,19 @@
-{ inputs, pkgs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   dockerShim = pkgs.writeShellScriptBin "docker" ''
     #!/usr/bin/env bash
     exec ${pkgs.podman}/bin/podman "$@"
   '';
+  keyboardMappingJson = builtins.toJSON {
+    UserKeyMapping = config.system.keyboard.userKeyMapping;
+  };
 in
 {
   imports = [
@@ -95,5 +104,16 @@ in
     swapLeftCtrlAndFn = true;
     swapLeftCommandAndLeftAlt = true;
     remapCapsLockToEscape = true;
+  };
+
+  launchd.user.agents.keyboard-remap = lib.mkIf config.system.keyboard.enableKeyMapping {
+    script = ''
+      /usr/bin/hidutil property --set '${keyboardMappingJson}' > /dev/null
+    '';
+    serviceConfig = {
+      RunAtLoad = true;
+      StandardOutPath = "/tmp/keyboard-remap.log";
+      StandardErrorPath = "/tmp/keyboard-remap.log";
+    };
   };
 }
