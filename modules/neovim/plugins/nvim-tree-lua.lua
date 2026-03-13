@@ -10,6 +10,10 @@ local git_repo_clean_sign_name = "NvimTreeGitRepoCleanSign"
 local git_repo_dirty_sign_name = "NvimTreeGitRepoDirtySign"
 local git_repo_ahead_sign_name = "NvimTreeGitRepoAheadSign"
 local git_repo_dirty_ahead_sign_name = "NvimTreeGitRepoDirtyAheadSign"
+local git_status_cache = {}
+local git_status_ttl_ms = 10000
+local tree_refresh_scheduled = false
+local mark_git_repo_folders
 
 vim.fn.sign_define(git_repo_clean_sign_name, {
   text = "",
@@ -76,36 +80,113 @@ local function is_git_repo(path)
   return stat.type == "directory" or stat.type == "file"
 end
 
-local function run_git_command(path, args)
-  local cmd = string.format("git -C %s %s", vim.fn.shellescape(path), args)
-  local output = vim.fn.systemlist(cmd)
-  if vim.v.shell_error ~= 0 then
-    return nil
-  end
-
-  return output
-end
-
-local function get_repo_git_status(path)
+local function parse_git_status_output(output)
   local has_uncommitted_changes = false
   local has_unpushed_commits = false
 
-  local status_output = run_git_command(path, "status --porcelain --untracked-files=normal")
-  if status_output and #status_output > 0 then
-    has_uncommitted_changes = true
-  end
-
-  local upstream_output = run_git_command(path, "rev-parse --abbrev-ref --symbolic-full-name @{upstream}")
-  if upstream_output and #upstream_output > 0 then
-    local ahead_output = run_git_command(path, "rev-list --count @{upstream}..HEAD")
-    if ahead_output and #ahead_output > 0 and tonumber(ahead_output[1]) and tonumber(ahead_output[1]) > 0 then
-      has_unpushed_commits = true
+  for line in output:gmatch("[^\r\n]+") do
+    if line:sub(1, 12) == "# branch.ab " then
+      local ahead = line:match("# branch%.ab %+(%d+)%s%-%d+")
+      if ahead and tonumber(ahead) and tonumber(ahead) > 0 then
+        has_unpushed_commits = true
+      end
+    elseif line:sub(1, 1) ~= "#" and line ~= "" then
+      has_uncommitted_changes = true
     end
   end
 
   return {
     has_uncommitted_changes = has_uncommitted_changes,
     has_unpushed_commits = has_unpushed_commits,
+  }
+end
+
+local function schedule_tree_refresh()
+  if tree_refresh_scheduled then
+    return
+  end
+
+  tree_refresh_scheduled = true
+  vim.defer_fn(function()
+    tree_refresh_scheduled = false
+    if mark_git_repo_folders then
+      mark_git_repo_folders()
+    end
+  end, 80)
+end
+
+local function queue_git_status_refresh(path)
+  local cached = git_status_cache[path]
+  if cached and cached.pending then
+    return
+  end
+
+  git_status_cache[path] = cached or {}
+  git_status_cache[path].pending = true
+
+  if vim.system then
+    vim.system({ "git", "-C", path, "status", "--porcelain=2", "--branch" }, { text = true }, function(result)
+      local status = {
+        has_uncommitted_changes = false,
+        has_unpushed_commits = false,
+      }
+
+      if result.code == 0 and result.stdout then
+        status = parse_git_status_output(result.stdout)
+      end
+
+      local entry = git_status_cache[path] or {}
+      entry.has_uncommitted_changes = status.has_uncommitted_changes
+      entry.has_unpushed_commits = status.has_unpushed_commits
+      entry.last_checked = uv.now()
+      entry.pending = false
+      git_status_cache[path] = entry
+
+      vim.schedule(schedule_tree_refresh)
+    end)
+    return
+  end
+
+  local output = vim.fn.systemlist(string.format(
+    "git -C %s status --porcelain=2 --branch",
+    vim.fn.shellescape(path)
+  ))
+
+  local status = {
+    has_uncommitted_changes = false,
+    has_unpushed_commits = false,
+  }
+
+  if vim.v.shell_error == 0 then
+    status = parse_git_status_output(table.concat(output, "\n"))
+  end
+
+  local entry = git_status_cache[path] or {}
+  entry.has_uncommitted_changes = status.has_uncommitted_changes
+  entry.has_unpushed_commits = status.has_unpushed_commits
+  entry.last_checked = uv.now()
+  entry.pending = false
+  git_status_cache[path] = entry
+end
+
+local function get_repo_git_status(path)
+  local cached = git_status_cache[path]
+  if not cached then
+    queue_git_status_refresh(path)
+    return {
+      has_uncommitted_changes = false,
+      has_unpushed_commits = false,
+    }
+  end
+
+  local age_ms = uv.now() - (cached.last_checked or 0)
+  if age_ms > git_status_ttl_ms and not cached.pending then
+    queue_git_status_refresh(path)
+  end
+
+  return {
+    has_uncommitted_changes = cached.has_uncommitted_changes or false,
+    has_unpushed_commits = cached.has_unpushed_commits or false,
   }
 end
 
@@ -126,7 +207,7 @@ local function get_git_repo_sign_name(path)
   return git_repo_clean_sign_name
 end
 
-local function mark_git_repo_folders()
+mark_git_repo_folders = function()
   if not api_ok then
     return
   end
