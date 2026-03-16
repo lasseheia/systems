@@ -2,10 +2,12 @@
   "$schema": "https://opencode.ai/config.json",
   "permission": {
     "bash": {
-      "*": "ask",
+      "*": "allow",
       "git *": "allow",
-      "git commit *": "ask",
-      "git push *": "deny"
+      "git push *": "ask",
+      "terraform apply *": "ask",
+      "terraform destroy *": "ask",
+      "nixos-rebuild switch *": "ask"
     },
     "skill": {
       "*": "allow"
