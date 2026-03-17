@@ -45,3 +45,9 @@ variable "windows_ipv4_address" {
   type        = string
   default     = "192.168.0.240"
 }
+
+variable "openclaw_ipv4_address" {
+  description = "Static IPv4 address for the OpenClaw container on openclawbr0"
+  type        = string
+  default     = "198.19.0.2"
+}

@@ -4,6 +4,10 @@ terraform {
       source  = "lxc/incus"
       version = "1.0.2"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.7.2"
+    }
   }
 
   backend "s3" {
@@ -49,4 +53,5 @@ provider "incus" {
     protocol = "oci"
     public   = true
   }
+
 }

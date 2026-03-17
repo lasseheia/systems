@@ -35,6 +35,7 @@ in
   environment.systemPackages = with pkgs; [
     freerdp
     remmina
+    rustdesk-flutter
   ];
 
   system.stateVersion = "24.11";
