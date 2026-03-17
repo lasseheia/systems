@@ -84,13 +84,6 @@ keybinds  {
       unbind "Ctrl q"
       bind "Alt q" { Quit; }
 
-      // SEARCH
-      unbind "Ctrl s"
-      bind "Alt f" { SwitchToMode "Search"; }
-
-      // SCROLL
-      bind "Alt s" { SwitchToMode "Scroll"; }
-
       // NEW PANES
       unbind "Ctrl |"
       bind "Alt |" { NewPane; }
@@ -108,6 +101,16 @@ keybinds  {
       bind "Alt 7" { GoToTab 7; }
       bind "Alt 8" { GoToTab 8; }
       bind "Alt 9" { GoToTab 9; }
+    }
+
+    normal {
+      // SEARCH
+      unbind "Ctrl s"
+      bind "Alt f" { SwitchToMode "Search"; }
+
+      // SCROLL
+      unbind "Ctrl f"
+      bind "Alt s" { SwitchToMode "Scroll"; }
     }
 
     locked {
