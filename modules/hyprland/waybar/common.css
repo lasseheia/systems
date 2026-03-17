@@ -33,13 +33,16 @@ tooltip label {
 #pulseaudio,
 #workspaces,
 #cpu,
+#temperature,
 #memory,
 #disk,
 #network,
 #tray,
 #battery,
 #backlight,
-#bluetooth {
+#bluetooth,
+#keyboard-state,
+#privacy {
   background: rgba(42, 47, 56, 0.72);
   border: 1px solid rgba(122, 133, 150, 0.2);
   border-radius: 999px;
@@ -52,12 +55,15 @@ tooltip label {
 #pulseaudio:hover,
 #workspaces:hover,
 #cpu:hover,
+#temperature:hover,
 #memory:hover,
 #disk:hover,
 #network:hover,
 #battery:hover,
 #backlight:hover,
-#bluetooth:hover {
+#bluetooth:hover,
+#keyboard-state:hover,
+#privacy:hover {
   background: rgba(50, 56, 66, 0.9);
 }
 
@@ -105,6 +111,14 @@ tooltip label {
   color: #9d88bf;
 }
 
+#keyboard-state {
+  color: #7a8596;
+}
+
+#privacy {
+  color: #6f94b6;
+}
+
 #pulseaudio.muted {
   color: #7a8596;
 }
@@ -115,6 +129,14 @@ tooltip label {
 
 #memory {
   color: #5f9ea8;
+}
+
+#temperature {
+  color: #c9b07b;
+}
+
+#temperature.critical {
+  color: #c97b87;
 }
 
 #disk.root {

@@ -31,7 +31,8 @@ in
 {
   home.packages = with pkgs; [
     lxqt.lxqt-policykit
-    wl-clipboard # for cliphist
+    wl-clipboard
+    clipse
     pamixer
     pwvucontrol
     overskride
@@ -119,7 +120,7 @@ in
       };
     };
 
-    copyq.enable = true;
+    copyq.enable = false;
 
     flameshot = {
       enable = true;

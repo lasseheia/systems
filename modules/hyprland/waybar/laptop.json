@@ -2,20 +2,22 @@
   "mainBar": {
     "modules-left": [
       "hyprland/workspaces",
-      "network"
+      "network",
+      "bluetooth"
     ],
-    "modules-center": [
-      "clock"
-    ],
+    "modules-center": [],
     "modules-right": [
       "battery",
       "backlight",
+      "temperature",
       "cpu",
       "memory",
       "disk#root",
       "disk#home",
+      "keyboard-state",
+      "privacy",
       "pulseaudio",
-      "bluetooth"
+      "clock"
     ],
     "backlight": {
       "device": "intel_backlight",

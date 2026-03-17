@@ -10,18 +10,31 @@
       "tooltip-format": "{:%Y-%m-%d %H:%M:%S}"
     },
     "hyprland/workspaces": {
-      "format": "{name}",
+      "format": "{id} {windows}",
       "on-click": "activate",
       "sort-by-number": true,
       "all-outputs": true,
-      "persistent-workspaces": {
-        "*": [
-          1,
-          2,
-          3,
-          4,
-          5
-        ]
+      "format-window-separator": " · ",
+      "window-rewrite-default": "app",
+      "window-rewrite": {
+        "class<alacritty>": "term",
+        "class<foot>": "term",
+        "class<kitty>": "term",
+        "class<brave-browser>": "web",
+        "class<firefox>": "web",
+        "class<chromium>": "web",
+        "class<code>": "code",
+        "class<VSCodium>": "code",
+        "class<thunar>": "files",
+        "class<org.gnome.Nautilus>": "files",
+        "class<nautilus>": "files",
+        "class<spotify>": "media",
+        "class<vlc>": "media",
+        "class<discord>": "chat",
+        "class<Slack>": "chat",
+        "class<telegram-desktop>": "chat",
+        "class<thunderbird>": "mail",
+        "class<steam>": "game"
       }
     },
     "pulseaudio": {
@@ -42,6 +55,12 @@
     "cpu": {
       "interval": 5,
       "format": "\uf2db  {usage:2}%"
+    },
+    "temperature": {
+      "interval": 5,
+      "critical-threshold": 85,
+      "format": "\uf2c9  {temperatureC}°C",
+      "format-critical": "\uf769  {temperatureC}°C"
     },
     "memory": {
       "interval": 5,
@@ -82,6 +101,37 @@
       "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
       "on-click": "if bluetoothctl show | grep -q 'Powered: no'; then bluetoothctl power on; else bluetoothctl power off; fi",
       "on-click-right": "waybar-bluetooth-menu"
+    },
+    "keyboard-state": {
+      "numlock": true,
+      "capslock": true,
+      "format": "{name} {icon}",
+      "format-icons": {
+        "locked": "\uf023",
+        "unlocked": "\uf3c1"
+      }
+    },
+    "privacy": {
+      "icon-spacing": 4,
+      "icon-size": 14,
+      "transition-duration": 250,
+      "modules": [
+        {
+          "type": "screenshare",
+          "tooltip": true,
+          "tooltip-icon-size": 24
+        },
+        {
+          "type": "audio-in",
+          "tooltip": true,
+          "tooltip-icon-size": 24
+        },
+        {
+          "type": "audio-out",
+          "tooltip": true,
+          "tooltip-icon-size": 24
+        }
+      ]
     }
   }
 }
