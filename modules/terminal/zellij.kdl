@@ -80,15 +80,6 @@ keybinds  {
       unbind "Alt o"
       bind "Alt o" { SwitchToMode "Session"; }
 
-      // TAB ORDER
-      unbind "Alt i"
-      unbind "Alt h"
-      unbind "Alt l"
-      bind "Alt h" { GoToPreviousTab; }
-      bind "Alt l" { GoToNextTab; }
-      bind "Alt Shift h" { MoveTab "Left"; }
-      bind "Alt Shift l" { MoveTab "Right"; }
-
       // QUIT
       unbind "Ctrl q"
       bind "Alt q" { Quit; }
