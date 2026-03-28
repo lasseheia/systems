@@ -2,6 +2,7 @@
   programs = {
     git = {
       enable = true;
+      signing.format = "ssh";
       includes = [
         {
           condition = "hasconfig:remote.*.url:https://github.com/**";
