@@ -27,7 +27,7 @@
               nixos-anywhere
 
               # Pre-commit hooks
-              pre-commit
+              # pre-commit
               nixfmt
               deadnix
               statix

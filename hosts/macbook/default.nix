@@ -81,8 +81,7 @@ in
     rectangle
     terraform
     terraform-ls
-    pre-commit
-    dotnet-ef
+    #pre-commit
   ];
 
   home-manager = {
