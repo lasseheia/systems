@@ -39,13 +39,21 @@ in
 
   nix = {
     enable = false; # Required to use nix-darwin
-    package = pkgs.lix;
+    package = pkgs.lixPackageSets.stable.lix;
     settings.experimental-features = "nix-command flakes";
   };
 
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [
+      (final: prev: {
+        inherit (prev.lixPackageSets.stable)
+          nixpkgs-review
+          nix-eval-jobs
+          nix-fast-build
+          colmena
+          ;
+      })
       (final: prev: {
         argocd = prev.argocd.overrideAttrs (old: {
           ui = old.ui.overrideAttrs (_: {
