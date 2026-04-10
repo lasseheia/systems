@@ -117,9 +117,4 @@ keybinds  {
         unbind "Ctrl g"
         bind "Alt g" { SwitchToMode "Normal"; }
     }
-
-    tab {
-        bind "H" { MoveTab "Left"; }
-        bind "L" { MoveTab "Right"; }
-    }
 }
