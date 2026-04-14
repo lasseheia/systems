@@ -1,5 +1,39 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "azure": {
+      "options": {
+        "resourceName": "lasseheia-test-resource"
+      }
+    },
+    "lmstudio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LM Studio (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:1234/v1",
+        "includeUsage": true
+      },
+      "models": {
+        "google/gemma-4-26b-a4b": {
+          "name": "Gemma 4"
+        }
+      }
+    }
+  },
+  "mcp": {
+    "github": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "enabled": true,
+      "environment": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    }
+  },
   "permission": {
     "bash": {
       "*": "allow",
