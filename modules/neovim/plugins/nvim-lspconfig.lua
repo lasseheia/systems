@@ -4,6 +4,7 @@ if not ok then
 end
 
 local capabilities = cmp_nvim_lsp.default_capabilities()
+local default_publish_diagnostics = vim.lsp.handlers['textDocument/publishDiagnostics']
 
 vim.lsp.config('*', {
   capabilities = capabilities,
@@ -26,6 +27,28 @@ vim.lsp.config('yamlls', {
         },
       },
     },
+  },
+})
+
+vim.lsp.config('nixd', {
+  capabilities = capabilities,
+  handlers = {
+    ['textDocument/publishDiagnostics'] = function(err, result, ctx, config)
+      if result and result.diagnostics then
+        local filtered = {}
+        for _, diagnostic in ipairs(result.diagnostics) do
+          local message = diagnostic.message or ''
+          if not message:find('prelude builtin', 1, true) then
+            table.insert(filtered, diagnostic)
+          end
+        end
+
+        result = vim.deepcopy(result)
+        result.diagnostics = filtered
+      end
+
+      return default_publish_diagnostics(err, result, ctx, config)
+    end,
   },
 })
 
