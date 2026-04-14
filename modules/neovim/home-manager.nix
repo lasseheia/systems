@@ -7,15 +7,13 @@
     pkgs.fd # For nvim-telescope
     pkgs.tree-sitter # For nvim-treesitter
     pkgs.dotnetCorePackages.sdk_10_0-bin # For .NET development
-    pkgs.roslyn-ls # For C# LSP
-    pkgs.netcoredbg # For .NET debugging
     pkgs.gcc # For nvim-lspconfig
     pkgs.typescript # For nvim-lspconfig
     pkgs.nixd # For nvim-lspconfig
     pkgs.alejandra # For Nix formatting
     pkgs.statix # For Nix linting
     pkgs.deadnix # For Nix dead code detection
-    pkgs.nodePackages.typescript-language-server # For nvim-lspconfig
+    pkgs.typescript-language-server # For nvim-lspconfig
     pkgs.yaml-language-server # For nvim-lspconfig
     pkgs.terraform-ls # For nvim-lspconfig
   ];
