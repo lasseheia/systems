@@ -43,6 +43,13 @@ in
 
       "opencode/skills/git-commit/SKILL.md".source = ./opencode/skills/git-commit/SKILL.md;
 
+      "opencode/tui.json" = {
+        force = true;
+        text = builtins.toJSON {
+          theme = "transparent";
+        };
+      };
+
       "direnv/direnv.toml".source = ./direnv/direnv.toml;
 
     };
@@ -231,9 +238,7 @@ in
 
     opencode = {
       enable = true;
-      settings = opencodeSettings // {
-        theme = "transparent";
-      };
+      settings = opencodeSettings;
       themes.transparent = ./opencode-transparent-theme.json;
     };
   };
