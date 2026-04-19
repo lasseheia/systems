@@ -1,6 +1,6 @@
 { pkgs, inputs, ... }:
 let
-  ssh_keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH8V+W2mKUj8QpWJe5N8Z6zrekUISHwdXy6vp4nkte4l" ];
+  ssh_key_file = ../../keys/users/lasse_ed25519.pub;
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -31,12 +31,12 @@ in
   users.users = {
     root = {
       isNormalUser = false;
-      openssh.authorizedKeys.keys = ssh_keys;
+      openssh.authorizedKeys.keyFiles = [ ssh_key_file ];
     };
     lasse = {
       isNormalUser = true;
       home = "/home/lasse";
-      openssh.authorizedKeys.keys = ssh_keys;
+      openssh.authorizedKeys.keyFiles = [ ssh_key_file ];
       extraGroups = [ "wheel" ];
     };
   };
