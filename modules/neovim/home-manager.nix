@@ -24,6 +24,8 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
+    withRuby = true;
+    withPython3 = true;
     extraConfig = builtins.readFile ./vimrc;
     initLua = builtins.concatStringsSep "\n" [
       (builtins.readFile ./options.lua)
