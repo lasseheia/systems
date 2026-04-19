@@ -13,7 +13,7 @@
   # Limit the number of generations to keep
   boot.loader.systemd-boot.configurationLimit = 10;
 
-  nixpkgs.hostPlatform = "x86_64-linux";
+  nixpkgs.stdenv.hostPlatform = "x86_64-linux";
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "23.05";

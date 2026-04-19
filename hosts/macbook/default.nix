@@ -65,7 +65,7 @@ in
         });
       })
     ];
-    hostPlatform = {
+    stdenv.hostPlatform = {
       system = "aarch64-darwin";
     };
   };
