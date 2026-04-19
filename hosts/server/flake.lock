@@ -62,7 +62,45 @@
       "inputs": {
         "disko": "disko",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "secrets": "secrets",
+        "sops-nix": "sops-nix"
+      }
+    },
+    "secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776625859,
+        "narHash": "sha256-JuLex3LvsO+/ld1bi4/QVUj1DJcLXaS1cbSjFiqcOLw=",
+        "ref": "refs/heads/main",
+        "rev": "4240ce6189135e5515d18e9910e0eba7cd0d3f31",
+        "revCount": 2,
+        "type": "git",
+        "url": "ssh://git@github.com/lasseheia/secrets.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/lasseheia/secrets.git"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1771166946,
+        "narHash": "sha256-UFc4lfGBr+wJmwgDGJDn1cVD6DTr0/8TdronNUiyXlU=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "2d0cf89b4404529778bc82de7e42b5754e0fe4fa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "type": "github"
       }
     }
   },
