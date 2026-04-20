@@ -65,9 +65,7 @@ in
         });
       })
     ];
-    stdenv.hostPlatform = {
-      system = "aarch64-darwin";
-    };
+    hostPlatform = "aarch64-darwin";
   };
 
   programs.zsh.enable = true;
