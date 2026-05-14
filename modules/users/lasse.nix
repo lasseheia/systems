@@ -5,7 +5,7 @@
   ...
 }:
 let
-  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
   homeDir = if isDarwin then "/Users/lasse" else "/home/lasse";
   cfg = config.modules.users.lasse;
 in
