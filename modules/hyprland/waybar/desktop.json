@@ -2,8 +2,7 @@
   "mainBar": {
     "modules-left": [
       "hyprland/workspaces",
-      "network",
-      "bluetooth"
+      "network"
     ],
     "modules-center": [],
     "modules-right": [
