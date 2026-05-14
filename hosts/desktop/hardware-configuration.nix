@@ -2,7 +2,7 @@
   lib,
   config,
   inputs,
-  pkgs-unstable,
+  pkgs,
   ...
 }:
 
@@ -29,7 +29,7 @@
 
   hardware.opentabletdriver = {
     enable = true;
-    package = pkgs-unstable.opentabletdriver;
+    package = pkgs.opentabletdriver;
   };
 
   networking.hostId = "b648d919"; # Randomly generated host ID, required for ZFS

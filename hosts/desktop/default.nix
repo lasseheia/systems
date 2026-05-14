@@ -1,7 +1,6 @@
 {
   pkgs,
   inputs,
-  pkgs-unstable,
   ...
 }:
 
@@ -12,7 +11,7 @@
     inputs.sops-nix.nixosModules.sops
     ../../modules/nixos
     ../../modules/home-manager
-    ../../modules/virtualization
+    #../../modules/virtualization
     ../../modules/terminal
     ../../modules/neovim
     ../../modules/git
@@ -22,16 +21,16 @@
 
   environment.systemPackages = [
     pkgs.prusa-slicer
-    pkgs-unstable.azuredatastudio
-    pkgs-unstable.rustdesk-flutter
-    pkgs-unstable.firefox
+    pkgs.azuredatastudio
+    pkgs.rustdesk-flutter
+    pkgs.firefox
     pkgs.signal-desktop
-    pkgs-unstable.krita
-    pkgs-unstable.opentabletdriver
-    pkgs-unstable.orca-slicer
-    pkgs-unstable.blender
-    pkgs-unstable.sqlcmd
-    pkgs-unstable.cura-appimage
+    pkgs.krita
+    pkgs.opentabletdriver
+    pkgs.orca-slicer
+    pkgs.blender
+    pkgs.sqlcmd
+    pkgs.cura-appimage
   ];
 
   zramSwap = {

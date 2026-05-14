@@ -1,4 +1,4 @@
-{ inputs, pkgs-unstable, ... }:
+{ inputs, ... }:
 
 {
   imports = [ inputs.home-manager.nixosModules.default ];
@@ -6,7 +6,6 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit pkgs-unstable; };
     users.lasse = {
       programs.home-manager.enable = true;
       home = {
