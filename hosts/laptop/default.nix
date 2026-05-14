@@ -9,7 +9,6 @@
   modules.hyprland.profile = "laptop";
 
   system.stateVersion = "23.05";
-  nixpkgs.stdenv.hostPlatform = "x86_64-linux";
 
   imports = [
     inputs.home-manager.nixosModules.default

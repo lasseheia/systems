@@ -1,6 +1,7 @@
 { inputs, modulesPath, ... }:
-
 {
+  nixpkgs.hostPlatform = "x86_64-linux";
+
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     inputs.nixos-hardware.nixosModules.dell-latitude-7490

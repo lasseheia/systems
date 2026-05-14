@@ -1,6 +1,7 @@
 { inputs, pkgs, ... }:
-
 {
+  nixpkgs.hostPlatform = "x86_64-linux";
+
   imports = [
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
