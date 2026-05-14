@@ -17,6 +17,7 @@ in
 {
   imports = [
     inputs.home-manager.darwinModules.default
+    ../../modules/users/lasse.nix
   ];
 
   system = {
@@ -70,10 +71,7 @@ in
 
   programs.zsh.enable = true;
 
-  users.users.lasse = {
-    name = "lasse";
-    home = "/Users/lasse";
-  };
+  users.users.lasse.name = "lasse";
 
   environment.systemPackages = with pkgs; [
     podman
@@ -90,17 +88,13 @@ in
     #pre-commit
   ];
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.lasse = {
-      home.stateVersion = "23.11";
-      imports = [
-        ../../modules/terminal/home-manager.nix
-        ../../modules/neovim/home-manager.nix
-        ../../modules/git/home-manager.nix
-      ];
-    };
+  home-manager.users.lasse = {
+    home.stateVersion = "23.11";
+    imports = [
+      ../../modules/terminal/home-manager.nix
+      ../../modules/neovim/home-manager.nix
+      ../../modules/git/home-manager.nix
+    ];
   };
 
   system.keyboard = {

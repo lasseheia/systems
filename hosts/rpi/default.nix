@@ -6,6 +6,7 @@ in
   imports = [
     inputs.home-manager.nixosModules.default
     ../../modules/common.nix
+    ../../modules/users/lasse.nix
     ../../modules/terminal
     ../../modules/git
     ../../modules/neovim
@@ -28,26 +29,13 @@ in
       openssh.authorizedKeys.keyFiles = [ ssh_key_file ];
     };
     lasse = {
-      isNormalUser = true;
-      home = "/home/lasse";
       openssh.authorizedKeys.keyFiles = [ ssh_key_file ];
-      extraGroups = [ "wheel" ];
     };
   };
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.lasse = {
-      programs.home-manager.enable = true;
-      home = {
-        stateVersion = "23.05";
-        username = "lasse";
-        homeDirectory = "/home/lasse";
-      };
-      wayland.windowManager.sway.enable = true;
-      wayland.windowManager.sway.config.modifier = "Super";
-    };
+  home-manager.users.lasse = {
+    wayland.windowManager.sway.enable = true;
+    wayland.windowManager.sway.config.modifier = "Super";
   };
 
   programs.sway.enable = true;

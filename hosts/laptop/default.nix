@@ -24,6 +24,7 @@
   imports = [
     inputs.home-manager.nixosModules.default
     ../../modules/common.nix
+    ../../modules/users/lasse.nix
     ../../modules/hyprland
     ../../modules/neovim
     ../../modules/terminal
@@ -36,11 +37,6 @@
 
   networking.wireless.iwd.enable = true;
 
-  users.users.lasse = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-  };
-
   boot.kernelParams = [ "noresume" ];
   swapDevices = lib.mkForce [ ];
 
@@ -48,18 +44,5 @@
     enable = true;
     memoryPercent = 25;
     priority = 100;
-  };
-
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.lasse = {
-      programs.home-manager.enable = true;
-      home = {
-        stateVersion = "23.05";
-        username = "lasse";
-        homeDirectory = "/home/lasse";
-      };
-    };
   };
 }

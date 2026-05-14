@@ -26,6 +26,7 @@ in
     inputs.sops-nix.nixosModules.sops
     ./incus/nixos
     ../../modules/common.nix
+    ../../modules/users/lasse.nix
     ../../modules/terminal
     ../../modules/hyprland
     ../../modules/neovim
@@ -86,53 +87,37 @@ in
       openssh.authorizedKeys.keyFiles = [ ssh_key_file ];
     };
     lasse = {
-      isNormalUser = true;
-      home = "/home/lasse";
       hashedPasswordFile = config.sops.secrets.lasse-password.path;
       openssh.authorizedKeys.keyFiles = [ ssh_key_file ];
-      extraGroups = [
-        "wheel"
-        "incus-admin"
-      ];
+      extraGroups = [ "incus-admin" ];
     };
   };
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.lasse = {
-      programs.home-manager.enable = true;
-      home = {
-        stateVersion = "23.05";
-        username = "lasse";
-        homeDirectory = "/home/lasse";
-      };
+  home-manager.users.lasse = {
+    programs = {
+      zsh.shellAliases.opencode = "opencode-limited";
+      opencode.package = pkgs.opencode;
+    };
 
-      programs = {
-        zsh.shellAliases.opencode = "opencode-limited";
-        opencode.package = pkgs.opencode;
-      };
+    home.packages = [ opencodeLimited ];
 
-      home.packages = [ opencodeLimited ];
-
-      systemd.user.services.opencode-snapshot-cleanup = {
-        Unit.Description = "Cleanup opencode snapshot cache";
-        Service = {
-          Type = "oneshot";
-          ExecStart = opencodeSnapshotCleanup;
-        };
+    systemd.user.services.opencode-snapshot-cleanup = {
+      Unit.Description = "Cleanup opencode snapshot cache";
+      Service = {
+        Type = "oneshot";
+        ExecStart = opencodeSnapshotCleanup;
       };
+    };
 
-      systemd.user.timers.opencode-snapshot-cleanup = {
-        Unit.Description = "Run opencode snapshot cleanup daily";
-        Timer = {
-          OnBootSec = "5m";
-          OnUnitActiveSec = "1d";
-          RandomizedDelaySec = "30m";
-          Persistent = true;
-        };
-        Install.WantedBy = [ "timers.target" ];
+    systemd.user.timers.opencode-snapshot-cleanup = {
+      Unit.Description = "Run opencode snapshot cleanup daily";
+      Timer = {
+        OnBootSec = "5m";
+        OnUnitActiveSec = "1d";
+        RandomizedDelaySec = "30m";
+        Persistent = true;
       };
+      Install.WantedBy = [ "timers.target" ];
     };
   };
 }
