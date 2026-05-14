@@ -9,10 +9,6 @@
   modules.hyprland.profile = "laptop";
 
   system.stateVersion = "23.05";
-  nix = {
-    settings.auto-optimise-store = true;
-    optimise.automatic = true;
-  };
   nixpkgs.stdenv.hostPlatform = "x86_64-linux";
 
   imports = [

@@ -5,10 +5,14 @@
   nix.extraOptions = ''
     trusted-users = root lasse
   '';
-  nix.settings.experimental-features = lib.mkDefault [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = lib.mkDefault [
+      "nix-command"
+      "flakes"
+    ];
+    auto-optimise-store = lib.mkDefault true;
+  };
+  nix.optimise.automatic = lib.mkDefault true;
 
   programs.ssh.startAgent = true;
 

@@ -46,8 +46,6 @@ in
   ];
 
   system.stateVersion = "24.11";
-  console.keyMap = "no";
-
   networking.hostName = "server";
   modules.users.lasse.extraGroups = [ "incus-admin" ];
 
