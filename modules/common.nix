@@ -1,10 +1,14 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   nixpkgs.config.allowUnfree = lib.mkDefault true;
 
   nix.extraOptions = ''
     trusted-users = root lasse
   '';
-  nix.settings.experimental-features = lib.mkDefault [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = lib.mkDefault [
+    "nix-command"
+    "flakes"
+  ];
 
   programs.ssh.startAgent = true;
 

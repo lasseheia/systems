@@ -1,13 +1,19 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
   homeDir = if isDarwin then "/Users/lasse" else "/home/lasse";
   cfg = config.modules.users.lasse;
-in {
+in
+{
   options.modules.users.lasse = {
     extraGroups = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [];
+      default = [ ];
       description = "Additional groups for the lasse user.";
     };
   };
