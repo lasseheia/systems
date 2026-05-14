@@ -50,7 +50,7 @@
       autoPrune.enable = true;
     };
   };
-  users.users.lasse.extraGroups = [ "podman" ];
+  modules.users.lasse.extraGroups = [ "podman" ];
 
   environment.systemPackages = [
     pkgs.prusa-slicer

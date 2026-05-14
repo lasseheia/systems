@@ -45,6 +45,7 @@ in
   console.keyMap = "no";
 
   networking.hostName = "server";
+  modules.users.lasse.extraGroups = [ "incus-admin" ];
 
   boot = {
     kernel.sysctl = {
@@ -89,7 +90,6 @@ in
     lasse = {
       hashedPasswordFile = config.sops.secrets.lasse-password.path;
       openssh.authorizedKeys.keyFiles = [ ssh_key_file ];
-      extraGroups = [ "incus-admin" ];
     };
   };
 
