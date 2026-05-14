@@ -3,10 +3,9 @@ let
   ssh_key_file = ../../keys/users/lasse_ed25519.pub;
 in
 {
-  nixpkgs.config.allowUnfree = true;
-
   imports = [
     inputs.home-manager.nixosModules.default
+    ../../modules/common.nix
     ../../modules/terminal
     ../../modules/git
     ../../modules/neovim
@@ -14,12 +13,7 @@ in
 
   networking = {
     hostName = "rpi";
-    wireless = {
-      iwd.enable = true;
-    };
-    firewall = {
-      enable = true;
-    };
+    wireless.iwd.enable = true;
   };
 
   services.openssh = {

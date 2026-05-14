@@ -25,6 +25,7 @@ in
     inputs.home-manager.nixosModules.default
     inputs.sops-nix.nixosModules.sops
     ./incus/nixos
+    ../../modules/common.nix
     ../../modules/terminal
     ../../modules/hyprland
     ../../modules/neovim
@@ -32,7 +33,6 @@ in
   ];
 
   nix.settings.experimental-features = "nix-command flakes";
-  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     freerdp
@@ -42,14 +42,8 @@ in
 
   system.stateVersion = "24.11";
   console.keyMap = "no";
-  time.timeZone = "Europe/Oslo";
 
-  networking = {
-    hostName = "server";
-    firewall = {
-      enable = true;
-    };
-  };
+  networking.hostName = "server";
 
   boot = {
     kernel.sysctl = {

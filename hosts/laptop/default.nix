@@ -20,10 +20,10 @@
     optimise.automatic = true;
   };
   nixpkgs.stdenv.hostPlatform = "x86_64-linux";
-  nixpkgs.config.allowUnfree = true;
 
   imports = [
     inputs.home-manager.nixosModules.default
+    ../../modules/common.nix
     ../../modules/hyprland
     ../../modules/neovim
     ../../modules/terminal
@@ -34,20 +34,7 @@
     rustdesk-flutter
   ];
 
-  networking = {
-    wireless.iwd.enable = true;
-    firewall.enable = true;
-  };
-
-  time.timeZone = "Europe/Oslo";
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-    extraLocaleSettings = {
-      LC_TIME = "nb_NO.UTF-8";
-    };
-  };
-
-  security.polkit.enable = true;
+  networking.wireless.iwd.enable = true;
 
   boot.kernelParams = [ "noresume" ];
   swapDevices = lib.mkForce [ ];

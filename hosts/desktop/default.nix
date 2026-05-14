@@ -12,6 +12,7 @@
     inputs.home-manager.nixosModules.default
     inputs.sops-nix.nixosModules.sops
     (modulesPath + "/installer/scan/not-detected.nix")
+    ../../modules/common.nix
     ../../modules/terminal
     ../../modules/neovim
     ../../modules/git
@@ -25,7 +26,6 @@
   };
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "23.05";
   nix = {
@@ -39,22 +39,7 @@
     optimise.automatic = true;
   };
 
-  networking = {
-    useNetworkd = true;
-    wireless.iwd.enable = true;
-    interfaces.wlan0.useDHCP = true;
-    firewall.enable = true;
-  };
-
-  time.timeZone = "Europe/Oslo";
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-    extraLocaleSettings = {
-      LC_TIME = "nb_NO.UTF-8";
-    };
-  };
-
-  security.polkit.enable = true;
+  networking.wireless.iwd.enable = true;
 
   virtualisation = {
     containers.enable = true;
