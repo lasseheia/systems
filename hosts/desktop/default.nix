@@ -12,7 +12,6 @@
     inputs.home-manager.nixosModules.default
     inputs.sops-nix.nixosModules.sops
     (modulesPath + "/installer/scan/not-detected.nix")
-    #../../modules/virtualization
     ../../modules/terminal
     ../../modules/neovim
     ../../modules/git
