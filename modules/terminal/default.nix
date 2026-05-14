@@ -8,15 +8,7 @@
     packages = with pkgs; [ terminus_font ];
   };
 
-  programs.zsh.enable = true;
-
-  users = {
-    defaultUserShell = pkgs.zsh;
-    users.lasse = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" ];
-    };
-  };
+  users.defaultUserShell = pkgs.zsh;
 
   programs.ssh.startAgent = true;
 

@@ -36,6 +36,11 @@
 
   networking.wireless.iwd.enable = true;
 
+  users.users.lasse = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
+  };
+
   boot.kernelParams = [ "noresume" ];
   swapDevices = lib.mkForce [ ];
 
