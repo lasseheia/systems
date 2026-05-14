@@ -1,7 +1,5 @@
 {
   inputs = {
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     nix-darwin = {
