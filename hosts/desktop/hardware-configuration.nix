@@ -25,7 +25,7 @@
     kernelModules = [ "kvm-amd" ];
   };
 
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.enableRedistributableFirmware = true;
 
   hardware.opentabletdriver = {
     enable = true;
