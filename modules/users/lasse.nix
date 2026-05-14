@@ -20,7 +20,12 @@ in {
     // lib.optionalAttrs (!isDarwin) {
       isNormalUser = true;
       extraGroups = [ "wheel" ] ++ cfg.extraGroups;
+    }
+    // lib.optionalAttrs isDarwin {
+      name = "lasse";
     };
+
+    programs.zsh.enable = lib.mkIf isDarwin true;
 
     home-manager = {
       useGlobalPkgs = true;

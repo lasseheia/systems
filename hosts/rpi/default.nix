@@ -7,6 +7,7 @@ in
     inputs.home-manager.nixosModules.default
     ../../modules/common.nix
     ../../modules/users/lasse.nix
+    ../../modules/services/openssh.nix
     ../../modules/terminal
     ../../modules/git
     ../../modules/neovim
@@ -15,12 +16,6 @@ in
   networking = {
     hostName = "rpi";
     wireless.iwd.enable = true;
-  };
-
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
   };
 
   users.users = {

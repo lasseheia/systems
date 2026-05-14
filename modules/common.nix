@@ -1,6 +1,13 @@
 { lib, ... }: {
   nixpkgs.config.allowUnfree = lib.mkDefault true;
 
+  nix.extraOptions = ''
+    trusted-users = root lasse
+  '';
+  nix.settings.experimental-features = lib.mkDefault [ "nix-command" "flakes" ];
+
+  programs.ssh.startAgent = true;
+
   networking.firewall.enable = lib.mkDefault true;
 
   time.timeZone = lib.mkDefault "Europe/Oslo";

@@ -1,11 +1,9 @@
 {
-  nix.settings.experimental-features = "nix-command flakes";
+  imports = [
+    ../../modules/services/openssh.nix
+  ];
 
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-  };
+  nix.settings.experimental-features = "nix-command flakes";
 
   users.users.nixos.openssh.authorizedKeys.keyFiles = [
     ../../keys/users/lasse_ed25519.pub

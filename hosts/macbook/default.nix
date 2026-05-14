@@ -69,10 +69,6 @@ in
     hostPlatform = "aarch64-darwin";
   };
 
-  programs.zsh.enable = true;
-
-  users.users.lasse.name = "lasse";
-
   environment.systemPackages = with pkgs; [
     podman
     glab

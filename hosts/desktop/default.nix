@@ -30,13 +30,7 @@
 
   system.stateVersion = "23.05";
   nix = {
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      auto-optimise-store = true;
-    };
+    settings.auto-optimise-store = true;
     optimise.automatic = true;
   };
 

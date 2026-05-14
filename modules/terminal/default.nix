@@ -10,11 +10,5 @@
 
   users.defaultUserShell = pkgs.zsh;
 
-  programs.ssh.startAgent = true;
-
-  nix.extraOptions = ''
-    trusted-users = root lasse
-  '';
-
   home-manager.users.lasse = ./home-manager.nix;
 }

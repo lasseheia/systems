@@ -26,6 +26,7 @@ in
     inputs.sops-nix.nixosModules.sops
     ./incus/nixos
     ../../modules/common.nix
+    ../../modules/services/openssh.nix
     ../../modules/users/lasse.nix
     ../../modules/terminal
     ../../modules/hyprland
@@ -33,7 +34,7 @@ in
     ../../modules/git
   ];
 
-  nix.settings.experimental-features = "nix-command flakes";
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   environment.systemPackages = with pkgs; [
     freerdp
@@ -65,12 +66,6 @@ in
     enable = true;
     memoryPercent = 20;
     priority = 100;
-  };
-
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
   };
 
   powerManagement.cpuFreqGovernor = "performance";
