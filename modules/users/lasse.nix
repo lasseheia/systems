@@ -31,7 +31,7 @@ in
       name = "lasse";
     };
 
-    programs.zsh.enable = lib.mkIf isDarwin true;
+    programs.zsh.enable = true;
 
     home-manager = {
       useGlobalPkgs = true;
