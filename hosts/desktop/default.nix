@@ -28,8 +28,6 @@
 
   system.stateVersion = "23.05";
 
-  networking.wireless.iwd.enable = true;
-
   virtualisation = {
     containers.enable = true;
     podman = {
@@ -54,10 +52,4 @@
     pkgs.cura-appimage
     pkgs.podman-compose
   ];
-
-  zramSwap = {
-    enable = true;
-    memoryPercent = 25;
-    priority = 100;
-  };
 }

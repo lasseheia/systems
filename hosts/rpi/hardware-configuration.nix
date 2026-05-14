@@ -34,6 +34,7 @@
   };
 
   hardware.enableRedistributableFirmware = true;
+  networking.wireless.iwd.enable = true;
   system.stateVersion = "25.05";
   nix.settings.experimental-features = [
     "nix-command"

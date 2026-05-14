@@ -13,10 +13,7 @@ in
     ../../modules/neovim
   ];
 
-  networking = {
-    hostName = "rpi";
-    wireless.iwd.enable = true;
-  };
+  networking.hostName = "rpi";
 
   users.users = {
     root = {

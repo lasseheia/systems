@@ -25,4 +25,10 @@
   };
 
   security.polkit.enable = lib.mkDefault true;
+
+  zramSwap = {
+    enable = lib.mkDefault true;
+    memoryPercent = lib.mkDefault 25;
+    priority = lib.mkDefault 100;
+  };
 }

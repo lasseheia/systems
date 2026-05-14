@@ -63,11 +63,7 @@ in
   # Keep zram swap, but do not wait for the ZFS zvol swap device during boot.
   swapDevices = lib.mkForce [ ];
 
-  zramSwap = {
-    enable = true;
-    memoryPercent = 20;
-    priority = 100;
-  };
+  zramSwap.memoryPercent = 20;
 
   powerManagement.cpuFreqGovernor = "performance";
 

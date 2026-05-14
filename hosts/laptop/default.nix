@@ -24,14 +24,6 @@
     rustdesk-flutter
   ];
 
-  networking.wireless.iwd.enable = true;
-
   boot.kernelParams = [ "noresume" ];
   swapDevices = lib.mkForce [ ];
-
-  zramSwap = {
-    enable = true;
-    memoryPercent = 25;
-    priority = 100;
-  };
 }

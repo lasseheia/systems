@@ -27,6 +27,7 @@
     package = pkgs.opentabletdriver;
   };
 
+  networking.wireless.iwd.enable = true;
   networking.hostId = "b648d919"; # Randomly generated host ID, required for ZFS
   disko.devices = {
     disk = {
