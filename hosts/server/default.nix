@@ -50,6 +50,8 @@ in
   modules.users.lasse.extraGroups = [ "incus-admin" ];
 
   boot = {
+    zfs.forceImportRoot = false;
+
     kernel.sysctl = {
       "vm.swappiness" = 5;
       "vm.dirty_background_ratio" = 5;
