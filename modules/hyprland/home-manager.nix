@@ -136,6 +136,7 @@ in
 
   wayland.windowManager.hyprland = {
     enable = true;
+    configType = "hyprlang";
     settings = {
       env = [
         "GTK_THEME,Adwaita:dark"
