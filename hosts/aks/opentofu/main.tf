@@ -197,7 +197,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   workload_autoscaler_profile {
-    vertical_pod_autoscaler_enabled = true
+    vertical_pod_autoscaler_enabled = false
   }
 
   key_vault_secrets_provider {
