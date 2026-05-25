@@ -12,3 +12,8 @@ variable "api_server_authorized_ip_ranges" {
   type        = list(string)
   description = "CIDR ranges allowed to reach the AKS API server."
 }
+
+variable "dns_zone_domain" {
+  type        = string
+  description = "DNS zone domain name to create in Azure DNS."
+}

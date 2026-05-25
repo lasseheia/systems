@@ -9,6 +9,11 @@ resource "azurerm_resource_group" "main" {
   location = var.location
 }
 
+resource "azurerm_dns_zone" "main" {
+  name                = var.dns_zone_domain
+  resource_group_name = azurerm_resource_group.main.name
+}
+
 import {
   to = azurerm_resource_group.main
   id = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${var.name}-rg"
