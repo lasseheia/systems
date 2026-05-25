@@ -75,10 +75,19 @@ resource "azurerm_role_assignment" "current_sp_storage_blob_data_contributor" {
   principal_id         = data.azurerm_client_config.current.object_id
 }
 
-resource "azurerm_public_ip" "traefik_ingress" {
-  name                = "${var.name}-traefik-pip"
-  resource_group_name = azurerm_kubernetes_cluster.main.node_resource_group
-  location            = azurerm_kubernetes_cluster.main.location
+resource "azurerm_public_ip" "aks_ingress" {
+  name                = "${var.name}-ingress-pip"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  allocation_method   = "Static"
+  sku                 = "Standard"
+  domain_name_label   = "${var.name}-aks"
+}
+
+resource "azurerm_public_ip" "aks_egress" {
+  name                = "${var.name}-egress-pip"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
   allocation_method   = "Static"
   sku                 = "Standard"
 }
@@ -158,6 +167,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     pod_cidr            = "192.168.0.0/16"
     service_cidr        = "172.16.0.0/16"
     dns_service_ip      = "172.16.0.10"
+
+    load_balancer_profile {
+      outbound_ip_address_ids = [azurerm_public_ip.aks_egress.id]
+    }
   }
 
   identity {
@@ -239,9 +252,9 @@ resource "azapi_resource" "flux_configuration" {
           prune                 = true
           postBuild = {
             substitute = {
-              TRAEFIK_PIP_NAME           = azurerm_public_ip.traefik_ingress.name
-              TRAEFIK_PIP_RESOURCE_GROUP = azurerm_public_ip.traefik_ingress.resource_group_name
-              TRAEFIK_LB_IP              = azurerm_public_ip.traefik_ingress.ip_address
+              TRAEFIK_PIP_NAME           = azurerm_public_ip.aks_ingress.name
+              TRAEFIK_PIP_RESOURCE_GROUP = azurerm_public_ip.aks_ingress.resource_group_name
+              TRAEFIK_LB_IP              = azurerm_public_ip.aks_ingress.ip_address
               TRAEFIK_ALLOWED_CIDR       = var.api_server_authorized_ip_ranges[0]
             }
           }
