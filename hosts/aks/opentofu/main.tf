@@ -14,6 +14,14 @@ resource "azurerm_dns_zone" "main" {
   resource_group_name = azurerm_resource_group.main.name
 }
 
+resource "azurerm_dns_a_record" "main" {
+  name                = "@"
+  zone_name           = azurerm_dns_zone.main.name
+  resource_group_name = azurerm_resource_group.main.name
+  ttl                 = 300
+  records             = [azurerm_public_ip.aks_ingress_main.ip_address]
+}
+
 resource "azurerm_key_vault" "main" {
   name                       = "${var.name}-kv"
   location                   = azurerm_resource_group.main.location
