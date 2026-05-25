@@ -285,6 +285,7 @@ resource "azapi_resource" "flux_configuration" {
               TRAEFIK_PIP_RESOURCE_GROUP = azurerm_public_ip.aks_ingress.resource_group_name
               TRAEFIK_LB_IP              = azurerm_public_ip.aks_ingress.ip_address
               TRAEFIK_ALLOWED_CIDR       = var.api_server_authorized_ip_ranges[0]
+              TRAEFIK_EGRESS_CIDR        = "${azurerm_public_ip.aks_egress.ip_address}/32"
               LETSENCRYPT_EMAIL          = var.letsencrypt_email
               DNS_ZONE_DOMAIN            = var.dns_zone_domain
               DNS_ZONE_RESOURCE_GROUP    = azurerm_resource_group.main.name

@@ -18,13 +18,16 @@ spec:
       interval: 12h
   values:
     service:
+      enabled: true
       annotations:
         service.beta.kubernetes.io/azure-pip-name: ${TRAEFIK_PIP_NAME}
         service.beta.kubernetes.io/azure-load-balancer-resource-group: ${TRAEFIK_PIP_RESOURCE_GROUP}
       loadBalancerIP: ${TRAEFIK_LB_IP}
       spec:
+        externalTrafficPolicy: Local
         loadBalancerSourceRanges:
           - ${TRAEFIK_ALLOWED_CIDR}
+          - ${TRAEFIK_EGRESS_CIDR}
     providers:
       kubernetesCRD:
         enabled: true
