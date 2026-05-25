@@ -93,6 +93,24 @@ resource "azurerm_container_registry" "main" {
   public_network_access_enabled = true
 }
 
+resource "azurerm_user_assigned_identity" "aks_control_plane" {
+  name                = "${var.name}-aks-control-plane-mi"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+}
+
+resource "azurerm_user_assigned_identity" "aks_kubelet" {
+  name                = "${var.name}-aks-kubelet-mi"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+}
+
+resource "azurerm_role_assignment" "aks_control_plane_managed_identity_operator_kubelet" {
+  scope                = azurerm_user_assigned_identity.aks_kubelet.id
+  role_definition_name = "Managed Identity Operator"
+  principal_id         = azurerm_user_assigned_identity.aks_control_plane.principal_id
+}
+
 resource "azurerm_kubernetes_cluster" "main" {
   name                         = "${var.name}-aks"
   location                     = azurerm_resource_group.main.location
@@ -143,7 +161,14 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   identity {
-    type = "SystemAssigned"
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.aks_control_plane.id]
+  }
+
+  kubelet_identity {
+    client_id                 = azurerm_user_assigned_identity.aks_kubelet.client_id
+    object_id                 = azurerm_user_assigned_identity.aks_kubelet.principal_id
+    user_assigned_identity_id = azurerm_user_assigned_identity.aks_kubelet.id
   }
 
   azure_active_directory_role_based_access_control {
@@ -165,12 +190,16 @@ resource "azurerm_kubernetes_cluster" "main" {
   key_vault_secrets_provider {
     secret_rotation_enabled = true
   }
+
+  depends_on = [
+    azurerm_role_assignment.aks_control_plane_managed_identity_operator_kubelet,
+  ]
 }
 
 resource "azurerm_role_assignment" "aks_kubelet_acr_pull" {
   scope                = azurerm_container_registry.main.id
   role_definition_name = "AcrPull"
-  principal_id         = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
+  principal_id         = azurerm_user_assigned_identity.aks_kubelet.principal_id
 }
 
 resource "azurerm_kubernetes_cluster_extension" "flux" {
@@ -236,4 +265,16 @@ resource "azurerm_role_assignment" "aks_kv_secrets_user" {
   scope                = azurerm_key_vault.main.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_kubernetes_cluster.main.key_vault_secrets_provider[0].secret_identity[0].object_id
+}
+
+resource "azurerm_role_assignment" "aks_cluster_network_contributor_main_rg" {
+  scope                = azurerm_resource_group.main.id
+  role_definition_name = "Network Contributor"
+  principal_id         = azurerm_user_assigned_identity.aks_control_plane.principal_id
+}
+
+resource "azurerm_role_assignment" "aks_control_plane_contributor_main_rg" {
+  scope                = azurerm_resource_group.main.id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_user_assigned_identity.aks_control_plane.principal_id
 }
