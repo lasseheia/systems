@@ -95,6 +95,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     auto_scaling_enabled = true
     min_count            = 1
     max_count            = 3
+    max_pods             = 250
     vm_size              = "Standard_D2pds_v6"
     os_disk_type         = "Ephemeral"
     os_disk_size_gb      = 30
