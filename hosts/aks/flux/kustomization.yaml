@@ -5,3 +5,4 @@ resources:
   - helmrepository-traefik.yaml
   - helmrelease-traefik.yaml
   - vpa-traefik.yaml
+  - ./cert-manager

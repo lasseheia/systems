@@ -122,6 +122,27 @@ resource "azurerm_user_assigned_identity" "aks_kubelet" {
   resource_group_name = azurerm_resource_group.main.name
 }
 
+resource "azurerm_user_assigned_identity" "cert_manager_dns" {
+  name                = "${var.name}-cert-manager-dns-mi"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+}
+
+resource "azurerm_federated_identity_credential" "cert_manager_dns" {
+  name                = "${var.name}-cert-manager-dns-fic"
+  resource_group_name = azurerm_resource_group.main.name
+  parent_id           = azurerm_user_assigned_identity.cert_manager_dns.id
+  audience            = ["api://AzureADTokenExchange"]
+  issuer              = azurerm_kubernetes_cluster.main.oidc_issuer_url
+  subject             = "system:serviceaccount:cert-manager:cert-manager"
+}
+
+resource "azurerm_role_assignment" "cert_manager_dns_zone_contributor" {
+  scope                = azurerm_dns_zone.main.id
+  role_definition_name = "DNS Zone Contributor"
+  principal_id         = azurerm_user_assigned_identity.cert_manager_dns.principal_id
+}
+
 resource "azurerm_role_assignment" "aks_control_plane_managed_identity_operator_kubelet" {
   scope                = azurerm_user_assigned_identity.aks_kubelet.id
   role_definition_name = "Managed Identity Operator"
@@ -264,6 +285,12 @@ resource "azapi_resource" "flux_configuration" {
               TRAEFIK_PIP_RESOURCE_GROUP = azurerm_public_ip.aks_ingress.resource_group_name
               TRAEFIK_LB_IP              = azurerm_public_ip.aks_ingress.ip_address
               TRAEFIK_ALLOWED_CIDR       = var.api_server_authorized_ip_ranges[0]
+              LETSENCRYPT_EMAIL          = var.letsencrypt_email
+              DNS_ZONE_DOMAIN            = var.dns_zone_domain
+              DNS_ZONE_RESOURCE_GROUP    = azurerm_resource_group.main.name
+              AZURE_SUBSCRIPTION_ID      = data.azurerm_client_config.current.subscription_id
+              AZURE_TENANT_ID            = data.azurerm_client_config.current.tenant_id
+              CERT_MANAGER_DNS_MI_CLIENT_ID = azurerm_user_assigned_identity.cert_manager_dns.client_id
             }
           }
         }
