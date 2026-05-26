@@ -170,13 +170,14 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   default_node_pool {
     name                 = "system"
+    temporary_name_for_rotation = "syrot"
     auto_scaling_enabled = true
     min_count            = 1
     max_count            = 1
     max_pods             = 250
     vm_size              = "Standard_D2pds_v6"
     os_disk_type         = "Ephemeral"
-    os_disk_size_gb      = 30
+    os_disk_size_gb      = 110
     os_sku               = "AzureLinux"
     zones                = ["2"]
 
