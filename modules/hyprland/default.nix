@@ -9,7 +9,6 @@
       "desktop"
       "laptop"
       "server"
-      "rpi"
     ];
     description = "Host profile used to select Hyprland and Waybar config files.";
   };
