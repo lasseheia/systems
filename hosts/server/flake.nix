@@ -18,7 +18,7 @@
     };
 
     secrets = {
-      url = "git+ssh://git@github.com/lasseheia/secrets.git";
+      url = "github:lasseheia/secrets";
       flake = false;
     };
   };

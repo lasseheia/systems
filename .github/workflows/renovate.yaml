@@ -36,7 +36,7 @@ jobs:
           app-id: ${{ secrets.RENOVATE_APP_ID }}
           private-key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
-          repositories: ${{ github.event.repository.name }}
+          repositories: ${{ github.event.repository.name }},secrets
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
@@ -46,4 +46,5 @@ jobs:
           LOG_LEVEL: ${{ github.event.inputs.logLevel || 'info' }}
           RENOVATE_TOKEN: ${{ steps.app-token.outputs.token }}
           RENOVATE_REPOSITORIES: ${{ github.repository }}
+          NIX_CONFIG: access-tokens = github.com=${{ steps.app-token.outputs.token }}
         run: nix run nixpkgs#renovate -- --allowed-commands='["bash -lc .*"]'

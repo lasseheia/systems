@@ -72,15 +72,15 @@
       "locked": {
         "lastModified": 1776625859,
         "narHash": "sha256-JuLex3LvsO+/ld1bi4/QVUj1DJcLXaS1cbSjFiqcOLw=",
-        "ref": "refs/heads/main",
+        "owner": "lasseheia",
+        "repo": "secrets",
         "rev": "4240ce6189135e5515d18e9910e0eba7cd0d3f31",
-        "revCount": 2,
-        "type": "git",
-        "url": "ssh://git@github.com/lasseheia/secrets.git"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/lasseheia/secrets.git"
+        "owner": "lasseheia",
+        "repo": "secrets",
+        "type": "github"
       }
     },
     "sops-nix": {

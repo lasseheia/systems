@@ -20,19 +20,6 @@
   ],
   "packageRules": [
     {
-      "description": "Do not look up the private secrets flake input",
-      "matchManagers": [
-        "nix"
-      ],
-      "matchDatasources": [
-        "git-refs"
-      ],
-      "matchPackageNames": [
-        "ssh://git@github.com/lasseheia/secrets.git"
-      ],
-      "enabled": false
-    },
-    {
       "matchManagers": [
         "nix"
       ],
