@@ -21,7 +21,7 @@ in
   ];
 
   system = {
-    stateVersion = 4;
+    stateVersion = 5;
     primaryUser = "lasse";
     defaults = {
       NSGlobalDomain = {
@@ -39,7 +39,7 @@ in
   };
 
   nix = {
-    enable = false; # Required to use nix-darwin
+    enable = true;
     package = pkgs.lixPackageSets.stable.lix;
     settings.experimental-features = "nix-command flakes";
   };
