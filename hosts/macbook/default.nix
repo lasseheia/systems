@@ -82,6 +82,7 @@ in
     terraform
     terraform-ls
     #pre-commit
+    brave
   ];
 
   home-manager.users.lasse = {
