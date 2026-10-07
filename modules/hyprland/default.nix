@@ -44,7 +44,7 @@
 
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-    services.blueman.enable = true;
+    services.blueman.enable = lib.mkDefault true;
 
     security.rtkit.enable = true;
     security.pam.services.hyprlock = { };

@@ -29,18 +29,21 @@ let
   );
 in
 {
-  home.packages = with pkgs; [
-    lxqt.lxqt-policykit
-    wl-clipboard
-    clipse
-    pamixer
-    pwvucontrol
-    overskride
-    waybarNetworkMenu
-    waybarAudioMenu
-    waybarBluetoothMenu
-    hyprBindsHelp
-  ];
+  home.packages =
+    (with pkgs; [
+      lxqt.lxqt-policykit
+      wl-clipboard
+      clipse
+      pamixer
+      pwvucontrol
+      waybarNetworkMenu
+      waybarAudioMenu
+      hyprBindsHelp
+    ])
+    ++ lib.optionals osConfig.services.blueman.enable [
+      pkgs.overskride
+      waybarBluetoothMenu
+    ];
 
   programs = {
     chromium = {

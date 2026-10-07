@@ -41,8 +41,18 @@
   };
   hardware.graphics.enable32Bit = true;
   programs.gamemode.enable = true;
-  services.pipewire.alsa.support32Bit = true;
-
+  services = {
+    blueman.enable = false;
+    pipewire = {
+      alsa.support32Bit = true;
+      wireplumber.extraConfig."10-disable-bluetooth" = {
+        "wireplumber.profiles".main = {
+          "monitor.bluez" = "disabled";
+          "monitor.bluez-midi" = "disabled";
+        };
+      };
+    };
+  };
   environment.systemPackages = [
     pkgs.lutris
     pkgs.prusa-slicer
