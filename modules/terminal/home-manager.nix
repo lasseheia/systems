@@ -80,7 +80,10 @@ in
       options = [ "--cmd cd" ];
     };
 
-    fzf.enable = true;
+    fzf = {
+      enable = true;
+      historyWidget.zsh.command = "";
+    };
 
     bat.enable = true;
 
