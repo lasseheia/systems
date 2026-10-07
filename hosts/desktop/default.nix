@@ -57,5 +57,7 @@
     pkgs.sqlcmd
     pkgs.cura-appimage
     pkgs.podman-compose
+    pkgs.smartmontools
+    pkgs.nvme-cli
   ];
 }
