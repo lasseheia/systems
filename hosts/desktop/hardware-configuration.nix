@@ -17,6 +17,7 @@
       "usbhid"
     ];
     initrd.kernelModules = [ "dm-snapshot" ];
+    blacklistedKernelModules = [ "i2c_nvidia_gpu" ];
     kernelModules = [ "kvm-amd" ];
   };
 
@@ -33,8 +34,12 @@
     package = pkgs.opentabletdriver;
   };
 
-  networking.wireless.iwd.enable = true;
-  networking.hostId = "b648d919"; # Randomly generated host ID, required for ZFS
+  networking = {
+    dhcpcd.wait = "background";
+    enableIPv6 = false;
+    wireless.iwd.enable = true;
+    hostId = "b648d919"; # Randomly generated host ID, required for ZFS
+  };
   boot.zfs.forceImportRoot = false;
   services.zfs = {
     autoScrub.enable = true;
