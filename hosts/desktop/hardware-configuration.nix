@@ -35,6 +35,19 @@
 
   networking.wireless.iwd.enable = true;
   networking.hostId = "b648d919"; # Randomly generated host ID, required for ZFS
+  boot.zfs.forceImportRoot = false;
+  services.zfs = {
+    autoScrub.enable = true;
+    autoSnapshot = {
+      enable = true;
+      flags = "-k -p --utc";
+      frequent = 0;
+      hourly = 24;
+      daily = 7;
+      weekly = 4;
+      monthly = 12;
+    };
+  };
   disko.devices = {
     disk = {
       root = {
@@ -50,7 +63,9 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "nofail" ];
+                mountOptions = [
+                  "umask=0077"
+                ];
               };
             };
             zfs = {
@@ -88,7 +103,10 @@
           };
           "root/nix" = {
             type = "zfs_fs";
-            options.mountpoint = "/nix";
+            options = {
+              mountpoint = "/nix";
+              "com.sun:auto-snapshot" = "false";
+            };
             mountpoint = "/nix";
           };
 
