@@ -47,7 +47,7 @@ in
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [
-      (final: prev: {
+      (_final: prev: {
         inherit (prev.lixPackageSets.stable)
           nixpkgs-review
           nix-eval-jobs
@@ -55,7 +55,7 @@ in
           colmena
           ;
       })
-      (final: prev: {
+      (_final: prev: {
         argocd = prev.argocd.overrideAttrs (old: {
           ui = old.ui.overrideAttrs (_: {
             offlineCache = prev.fetchYarnDeps {
