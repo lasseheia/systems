@@ -26,6 +26,8 @@
     systemd-boot.configurationLimit = 10;
   };
 
+  nix.package = pkgs.lixPackageSets.stable.lix;
+
   system.stateVersion = "23.05";
 
   virtualisation = {
