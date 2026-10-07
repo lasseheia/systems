@@ -26,7 +26,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "nofail" ]; # Continue boot even if /boot fails to mount
+                mountOptions = [ "umask=0077" ];
               };
             };
             zfs = {
@@ -80,6 +80,8 @@
       };
     };
   };
+
+  services.zfs.autoScrub.enable = true;
 
   hardware.bluetooth = {
     enable = true;
