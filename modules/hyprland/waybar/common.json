@@ -86,9 +86,9 @@
       "tooltip-format-ethernet": "{ifname}",
       "tooltip-format-disconnected": "Disconnected",
       "max-length": 22,
-      "on-click": "alacritty -e nmtui",
+      "on-click": "alacritty -e iwctl",
       "on-click-right": "waybar-network-menu",
-      "on-click-middle": "sh -c \"if [ \\\"$(nmcli radio wifi)\\\" = enabled ]; then nmcli radio wifi off; else nmcli radio wifi on; fi\""
+      "on-click-middle": "waybar-network-menu toggle"
     },
     "bluetooth": {
       "format": "\uf294 {status}",

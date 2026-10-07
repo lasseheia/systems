@@ -1,15 +1,25 @@
+# shellcheck shell=sh
 set -eu
 
-choice=$(printf '%s\n' "Toggle Wi-Fi" "Open nmtui" "" | wofi --dmenu --prompt "Network" || true)
+toggle_wifi() {
+  if rfkill -n -o TYPE,SOFT | grep -q '^wlan unblocked$'; then
+    rfkill block wlan
+  else
+    rfkill unblock wlan
+  fi
+}
+
+if [ "${1:-}" = "toggle" ]; then
+  toggle_wifi
+  exit
+fi
+
+choice=$(printf '%s\n' "Toggle Wi-Fi" "Open iwd" "" | wofi --dmenu --prompt "Network" || true)
 case "$choice" in
   "Toggle Wi-Fi")
-    if [ "$(nmcli radio wifi)" = "enabled" ]; then
-      nmcli radio wifi off
-    else
-      nmcli radio wifi on
-    fi
+    toggle_wifi
     ;;
-  "Open nmtui")
-    alacritty -e nmtui
+  "Open iwd")
+    alacritty -e iwctl
     ;;
 esac
