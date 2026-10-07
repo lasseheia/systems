@@ -26,6 +26,7 @@ in
     // lib.optionalAttrs (!isDarwin) {
       isNormalUser = true;
       extraGroups = [ "wheel" ] ++ cfg.extraGroups;
+      openssh.authorizedKeys.keyFiles = [ ../../keys/users/lasse_ed25519.pub ];
     }
     // lib.optionalAttrs isDarwin {
       name = "lasse";
