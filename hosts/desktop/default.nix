@@ -7,6 +7,7 @@
 
 {
   modules.hyprland.profile = "desktop";
+  networking.hostName = "desktop";
 
   imports = [
     inputs.home-manager.nixosModules.default
