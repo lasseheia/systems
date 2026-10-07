@@ -39,9 +39,13 @@
       autoPrune.enable = true;
     };
   };
+  hardware.graphics.enable32Bit = true;
+  programs.gamemode.enable = true;
+  services.pipewire.alsa.support32Bit = true;
   modules.users.lasse.extraGroups = [ "podman" ];
 
   environment.systemPackages = [
+    pkgs.lutris
     pkgs.prusa-slicer
     pkgs.azuredatastudio
     pkgs.rustdesk-flutter
