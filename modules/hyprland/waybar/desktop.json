@@ -10,7 +10,6 @@
       "cpu",
       "memory",
       "disk#root",
-      "disk#home",
       "keyboard-state",
       "privacy",
       "pulseaudio",
