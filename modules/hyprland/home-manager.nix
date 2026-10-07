@@ -72,6 +72,31 @@ in
         ${waybarHostStyle}
       '';
     };
+
+    hyprlock = {
+      enable = true;
+      settings = {
+        general.hide_cursor = true;
+        background = [
+          {
+            monitor = "";
+            path = "screenshot";
+            blur_passes = 3;
+            blur_size = 8;
+          }
+        ];
+        input-field = [
+          {
+            monitor = "";
+            size = "280, 56";
+            position = "0, -80";
+            dots_center = true;
+            fade_on_empty = false;
+            placeholder_text = ''<span foreground="##ffffff">Password...</span>'';
+          }
+        ];
+      };
+    };
   };
 
   home.sessionVariables = {
@@ -111,6 +136,28 @@ in
 
   services = {
     dunst.enable = true;
+
+    hypridle = {
+      enable = true;
+      settings = {
+        general = {
+          lock_cmd = "pidof hyprlock || hyprlock";
+          before_sleep_cmd = "loginctl lock-session";
+          after_sleep_cmd = "hyprctl dispatch dpms on";
+        };
+        listener = [
+          {
+            timeout = 600;
+            on-timeout = "loginctl lock-session";
+          }
+          {
+            timeout = 900;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
+      };
+    };
 
     wpaperd = {
       enable = true;

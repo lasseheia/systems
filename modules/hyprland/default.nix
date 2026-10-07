@@ -47,6 +47,7 @@
     services.blueman.enable = true;
 
     security.rtkit.enable = true;
+    security.pam.services.hyprlock = { };
 
     home-manager.users.lasse = ./home-manager.nix;
   };
