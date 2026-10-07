@@ -26,9 +26,4 @@ bindkey "^j" history-beginning-search-forward
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#7a8596'
 
 # Add ssh key to agent if not already added
-ssh-add -l > /dev/null || ssh-add
-
-# Source zsh config when creating a new nix shell
-if [ "$IN_NIX_SHELL" = "impure" ]; then
-  source ~/.zshrc
-fi
+ssh-add -l > /dev/null 2>&1 || [[ ! -f "$HOME/.ssh/id_ed25519" ]] || ssh-add "$HOME/.ssh/id_ed25519"
