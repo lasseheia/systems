@@ -51,7 +51,6 @@
     pkgs.firefox
     pkgs.signal-desktop
     pkgs.krita
-    pkgs.opentabletdriver
     pkgs.orca-slicer
     pkgs.blender
     pkgs.sqlcmd

@@ -21,17 +21,18 @@
     kernelModules = [ "kvm-amd" ];
   };
 
-  hardware.enableRedistributableFirmware = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    open = true;
-    modesetting.enable = true;
-    nvidiaSettings = true;
-  };
-
-  hardware.opentabletdriver = {
-    enable = true;
-    package = pkgs.opentabletdriver;
+  hardware = {
+    enableRedistributableFirmware = true;
+    nvidia = {
+      open = true;
+      modesetting.enable = true;
+      nvidiaSettings = true;
+    };
+    opentabletdriver = {
+      enable = true;
+      package = pkgs.opentabletdriver;
+    };
   };
 
   networking = {
