@@ -16,6 +16,8 @@
     pkgs.typescript-language-server # For nvim-lspconfig
     pkgs.yaml-language-server # For nvim-lspconfig
     pkgs.terraform-ls # For nvim-lspconfig
+    pkgs.dart # For nvim-lspconfig
+    pkgs.roslyn-ls # For nvim-lspconfig
   ];
 
   programs.neovim = {
