@@ -3,15 +3,18 @@
   nixpkgs.config.allowUnfree = lib.mkDefault true;
 
   nix = {
-    extraOptions = ''
-      trusted-users = root lasse
-    '';
+    channel.enable = false;
     settings = {
       experimental-features = lib.mkDefault [
         "nix-command"
         "flakes"
       ];
-      auto-optimise-store = lib.mkDefault true;
+      trusted-users = lib.mkDefault [ "root" ];
+    };
+    gc = {
+      automatic = lib.mkDefault true;
+      dates = lib.mkDefault "weekly";
+      options = lib.mkDefault "--delete-older-than 30d";
     };
     optimise.automatic = lib.mkDefault true;
   };
