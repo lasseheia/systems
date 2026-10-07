@@ -3,14 +3,10 @@ name: Checks
 on:
   pull_request:
     paths-ignore:
-      - .github/**
-      - '!.github/workflows/check-flake.yaml'
       - LICENCE
       - README.md
   push:
     paths-ignore:
-      - .github/**
-      - '!.github/workflows/check-flake.yaml'
       - LICENCE
       - README.md
 
@@ -45,12 +41,40 @@ jobs:
         with:
           nixpkgs-keys: ${{ steps.extract-keys.outputs.nixpkgs_keys }}
 
-  check-flake-systems:
-    name: Check Flake Systems
+  check-hosts:
+    name: Check ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    env:
+      NIX_GITHUB_TOKEN: ${{ secrets.NIX_GITHUB_TOKEN }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        include:
+          - name: desktop
+            os: ubuntu-latest
+            flake: ./hosts/desktop
+            output: nixosConfigurations.desktop.config.system.build.toplevel
+          - name: laptop
+            os: ubuntu-latest
+            flake: ./hosts/laptop
+            output: nixosConfigurations.laptop.config.system.build.toplevel
+          - name: installer
+            os: ubuntu-latest
+            flake: ./hosts/installer
+            output: nixosConfigurations.installer.config.system.build.toplevel
+          - name: kubernetes
+            os: ubuntu-latest
+            flake: ./hosts/server/incus/instances/kubernetes
+            output: nixosConfigurations.default.config.system.build.toplevel
+          - name: server
+            os: ubuntu-latest
+            flake: ./hosts/server
+            output: nixosConfigurations.server.config.system.build.toplevel
+            private_input: true
+          - name: macbook
+            os: macos-15
+            flake: ./hosts/macbook
+            output: darwinConfigurations.macbook.system
     steps:
 
       - name: Check out repository
@@ -59,13 +83,17 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
 
-      - name: Check Nix flake systems
+      - name: Evaluate host
+        if: matrix.private_input != true
         run: |
-          {
-            echo '```bash'
-            nix flake check --all-systems 2>&1
-            echo '```'
-          } | tee -a "$GITHUB_STEP_SUMMARY"
+          nix eval '${{ matrix.flake }}#${{ matrix.output }}.drvPath'
+
+      - name: Evaluate host with private inputs
+        if: matrix.private_input == true && env.NIX_GITHUB_TOKEN != ''
+        env:
+          NIX_CONFIG: access-tokens = github.com=${{ secrets.NIX_GITHUB_TOKEN }}
+        run: |
+          nix eval '${{ matrix.flake }}#${{ matrix.output }}.drvPath'
 
   nix-lint:
     name: Nix Lint
