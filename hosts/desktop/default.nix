@@ -53,6 +53,7 @@
       };
     };
   };
+  modules.users.lasse.extraGroups = [ "gamemode" ];
   environment.systemPackages = [
     pkgs.lutris
     pkgs.prusa-slicer
