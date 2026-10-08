@@ -26,6 +26,9 @@ printf '%s\n' \
   "  SUPER + 1..0     Switch to workspace 1..10" \
   "  SUPER + SHIFT + 1..0  Move window to workspace 1..10" \
   "" \
+  "Session" \
+  "  SUPER + ALT + L  Lock session" \
+  "" \
   "Help" \
   "  SUPER + F1       Show this keybind help" \
   | wofi --dmenu --prompt "Hyprland keybinds" --insensitive >/dev/null
