@@ -31,6 +31,8 @@ in
   sops.secrets.cloudflare-api-token = {
     sopsFile = inputs.secrets + "/server/cloudflare.yaml";
   };
+  security.acme.certs."server.heia.sh" = { };
+  virtualisation.incus.useACMEHost = "server.heia.sh";
 
   fileSystems."/mnt/nas-server" = {
     device = "nas.heia.sh:/var/nfs/shared/Server";

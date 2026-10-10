@@ -19,6 +19,7 @@
           default = pkgs.mkShell {
             packages = with pkgs; [
               opentofu
+              incus.client
               tofu-ls
               skopeo
               qemu
