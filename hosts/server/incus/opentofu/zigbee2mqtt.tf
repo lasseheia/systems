@@ -1,3 +1,14 @@
+resource "incus_storage_volume" "zigbee2mqtt_data" {
+  name    = "zigbee2mqtt-data"
+  pool    = incus_storage_pool.main.name
+  type    = "custom"
+  project = "default"
+  config  = { size = "4GiB" }
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "incus_image" "zigbee2mqtt" {
   source_image = {
     remote = "github"
@@ -10,8 +21,11 @@ resource "incus_instance" "zigbee2mqtt" {
   type  = "container"
   image = incus_image.zigbee2mqtt.fingerprint
 
+  depends_on = [incus_instance.eclipse_mosquitto]
+
   config = {
-    "environment.TZ" = "Europe/Amsterdam"
+    "environment.TZ"                             = "Europe/Oslo"
+    "environment.ZIGBEE2MQTT_CONFIG_MQTT_SERVER" = "mqtt://eclipse-mosquitto.incus:1883"
   }
 
   device {
@@ -31,6 +45,16 @@ resource "incus_instance" "zigbee2mqtt" {
     properties = {
       network        = incus_network.bridge.name
       "ipv4.address" = var.zigbee2mqtt_ipv4_address
+    }
+  }
+
+  device {
+    name = "data"
+    type = "disk"
+    properties = {
+      path   = "/app/data"
+      pool   = incus_storage_pool.main.name
+      source = incus_storage_volume.zigbee2mqtt_data.name
     }
   }
 
