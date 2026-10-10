@@ -39,7 +39,6 @@ in
     consoleLogLevel = 3;
   };
 
-  # Keep zram swap, but do not wait for the ZFS zvol swap device during boot.
   swapDevices = lib.mkForce [ ];
 
   zramSwap.memoryPercent = 20;

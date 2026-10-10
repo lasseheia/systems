@@ -75,20 +75,6 @@
             type = "zfs_fs";
             mountpoint = "/nix";
           };
-          "root/swap" = {
-            type = "zfs_volume";
-            size = "4G";
-            content = {
-              type = "swap";
-              mountOptions = [
-                "defaults"
-                "nofail"
-              ];
-            };
-            options = {
-              volblocksize = "4096"; # Basic block size setting for swap
-            };
-          };
         };
       };
     };
