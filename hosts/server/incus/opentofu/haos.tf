@@ -1,7 +1,7 @@
 resource "incus_instance" "haos" {
-  name         = "haos"
-  type         = "virtual-machine"
-  architecture = "x86_64"
+  name  = "haos"
+  type  = "virtual-machine"
+  image = "haos-18.3"
   config = {
     "limits.cpu"          = "4"
     "limits.memory"       = "4GB"
@@ -14,7 +14,8 @@ resource "incus_instance" "haos" {
     name = "root"
     properties = {
       path = "/"
-      pool = "incus"
+      pool = incus_storage_pool.main.name
+      size = "64GiB"
     }
     type = "disk"
   }
@@ -29,22 +30,8 @@ resource "incus_instance" "haos" {
     }
   }
 
-  device {
-    name = "zwave"
-    type = "usb"
-    properties = {
-      required  = "true"
-      vendorid  = "0658"
-      productid = "0200"
-    }
-  }
-
   lifecycle {
-    ignore_changes = [running]
+    ignore_changes  = [running]
+    prevent_destroy = true
   }
-}
-
-import {
-  id = "haos"
-  to = incus_instance.haos
 }
