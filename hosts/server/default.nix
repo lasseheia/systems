@@ -26,6 +26,17 @@ in
   system.stateVersion = "24.11";
   networking.hostName = "server";
 
+  fileSystems."/mnt/nas-server" = {
+    device = "nas.heia.sh:/var/nfs/shared/Server";
+    fsType = "nfs";
+    options = [
+      "ro"
+      "_netdev"
+      "nofail"
+      "x-systemd.automount"
+    ];
+  };
+
   boot = {
     zfs.forceImportRoot = false;
 
