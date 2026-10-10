@@ -60,6 +60,8 @@
         rootFsOptions = {
           mountpoint = "none"; # Disable automatic mounting; set mountpoints per dataset below
           compression = "zstd"; # Efficient, modern compression
+          acltype = "posixacl";
+          xattr = "sa";
         };
         options.ashift = "12"; # Ensures proper 4K alignment for NVMe/SSD devices
         datasets = {
