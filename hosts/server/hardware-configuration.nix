@@ -1,9 +1,22 @@
-{ inputs, ... }:
+{ inputs, modulesPath, ... }:
 
 {
   imports = [
     inputs.disko.nixosModules.disko
+    (modulesPath + "/installer/scan/not-detected.nix")
   ];
+
+  nixpkgs.hostPlatform = "x86_64-linux";
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "thunderbolt"
+    "nvme"
+    "usb_storage"
+    "sd_mod"
+  ];
+  boot.kernelModules = [ "kvm-intel" ];
+  hardware.cpu.intel.updateMicrocode = true;
+  networking.useDHCP = true;
 
   boot.loader = {
     systemd-boot.enable = true;
@@ -15,7 +28,7 @@
     disk = {
       nvme0n1 = {
         type = "disk";
-        device = "/dev/nvme0n1";
+        device = "/dev/disk/by-id/nvme-CT1000E100SSD8_2546EAD073CC";
         content = {
           type = "gpt";
           partitions = {
