@@ -5,10 +5,14 @@ tofu_dir := repo_root / "hosts/server/incus/opentofu"
 default:
     @just --list
 
-# Rebuild a NixOS host locally
-rebuild host:
+rebuild:
     sudo nixos-rebuild switch \
-      --flake {{ repo_root }}/hosts/{{ host }}#{{ host }}
+        --flake "{{ repo_root }}/hosts/$(hostname -s)#$(hostname -s)"
+
+rebuild-server:
+    nixos-rebuild switch \
+        --flake "{{ repo_root }}/hosts/server#server" \
+        --target-host root@server.heia.sh
 
 # Rebuild macbook locally (nix-darwin)
 rebuild-macbook:
@@ -56,11 +60,3 @@ tofu *args:
     eval "$(grep -v 'use flake' {{ tofu_dir }}/.envrc)"
     cd {{ tofu_dir }}
     nix develop --command tofu {{ args }}
-
-# Repack Windows ISO with VirtIO drivers and import into Incus
-repack-windows-iso:
-    sudo {{ tofu_dir }}/repack-windows-iso.sh
-
-# Connect to a Windows VM over RDP
-rdp ip user *args:
-    xfreerdp /v:{{ ip }} /u:{{ user }} /dynamic-resolution /gfx:avc444 /sound:sys:pulse /microphone:sys:pulse /cert:ignore {{ args }}
