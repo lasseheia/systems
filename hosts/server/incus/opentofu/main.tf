@@ -11,11 +11,20 @@ import {
 resource "incus_storage_pool" "main" {
   name   = "incus"
   driver = "zfs"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "incus_storage_bucket" "opentofu" {
-  name = "opentofu"
-  pool = incus_storage_pool.main.name
+  name    = "opentofu"
+  pool    = incus_storage_pool.main.name
+  project = "default"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "incus_network" "bridge" {
