@@ -96,10 +96,5 @@
 
   services.zfs.autoScrub.enable = true;
 
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-  };
-
   hardware.enableRedistributableFirmware = true;
 }
