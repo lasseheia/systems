@@ -1,12 +1,12 @@
 terraform {
   required_providers {
+    dns = {
+      source  = "hashicorp/dns"
+      version = "3.6.2"
+    }
     incus = {
       source  = "lxc/incus"
       version = "1.2.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "3.9.0"
     }
   }
 
@@ -32,13 +32,6 @@ terraform {
 
 provider "incus" {
   default_remote = "local"
-
-  remote {
-    name     = "mcr"
-    address  = "https://mcr.microsoft.com"
-    protocol = "oci"
-    public   = true
-  }
 
   remote {
     name     = "github"
