@@ -12,6 +12,7 @@ in
   imports = [
     inputs.sops-nix.nixosModules.sops
     ./incus/nixos
+    ./ingress.nix
     ../../modules/common.nix
     ../../modules/services/openssh.nix
   ];
@@ -25,6 +26,11 @@ in
 
   system.stateVersion = "24.11";
   networking.hostName = "server";
+
+  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  sops.secrets.cloudflare-api-token = {
+    sopsFile = inputs.secrets + "/server/cloudflare.yaml";
+  };
 
   fileSystems."/mnt/nas-server" = {
     device = "nas.heia.sh:/var/nfs/shared/Server";
