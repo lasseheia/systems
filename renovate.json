@@ -3,26 +3,34 @@
   "extends": [
     "config:recommended"
   ],
+  "automerge": false,
   "nix": {
     "enabled": true
   },
-  "packageRules": [
+  "customManagers": [
     {
-      "matchManagers": [
-        "nix"
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^hosts/server/incus/opentofu/.*\\.tf$/"
       ],
-      "matchFileNames": [
-        "**/flake.lock"
+      "matchStrings": [
+        "remote\\s*=\\s*\"docker\"\\s+name\\s*=\\s*\"(?<depName>[^\"@]+?):(?<currentValue>[^\"@]+)@(?<currentDigest>sha256:[a-f0-9]{64})\""
       ],
-      "automerge": true,
-      "automergeType": "branch",
-      "platformAutomerge": false
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^hosts/server/incus/opentofu/.*\\.tf$/"
+      ],
+      "matchStrings": [
+        "remote\\s*=\\s*\"github\"\\s+name\\s*=\\s*\"(?<depName>[^\"@]+?):(?<currentValue>[^\"@]+)@(?<currentDigest>sha256:[a-f0-9]{64})\""
+      ],
+      "datasourceTemplate": "docker",
+      "registryUrlTemplate": "https://ghcr.io"
     }
   ],
   "lockFileMaintenance": {
-    "enabled": true,
-    "automerge": true,
-    "automergeType": "branch",
-    "platformAutomerge": true
+    "enabled": true
   }
 }
