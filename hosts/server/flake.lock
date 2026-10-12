@@ -48,11 +48,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1791822393,
-        "narHash": "sha256-0FntZY7SMTvIh4Tod6NU1sInPDqG6osKkQCe5Hsd4Ng=",
+        "lastModified": 1791835744,
+        "narHash": "sha256-lM/PIann+CO1i/AhKcd4sBm+ST4zro2rOBc4gXI7pi4=",
         "owner": "lasseheia",
         "repo": "secrets",
-        "rev": "77e3e37f5a3391dcdfa5eeb6f80fa07038dcd713",
+        "rev": "2606096af5c1d457b5973570b4cdf1fd1dcedcd3",
         "type": "github"
       },
       "original": {

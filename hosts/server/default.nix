@@ -13,6 +13,7 @@ in
     inputs.sops-nix.nixosModules.sops
     ./incus/nixos
     ./ingress.nix
+    ./renovate.nix
     ../../modules/common.nix
     ../../modules/services/openssh.nix
   ];
