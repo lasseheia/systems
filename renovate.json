@@ -6,18 +6,6 @@
   "nix": {
     "enabled": true
   },
-  "customManagers": [
-    {
-      "customType": "regex",
-      "fileMatch": [
-        "^pkgs/zjstatus-plugin/default\\.nix$"
-      ],
-      "matchStrings": [
-        "url = \\\"https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/v(?<currentValue>[^\\\"]+)/zjstatus\\.wasm\\\";\\n\\s*hash = \\\"[^\\\"]+\\\";"
-      ],
-      "datasourceTemplate": "github-releases"
-    }
-  ],
   "packageRules": [
     {
       "matchManagers": [
@@ -29,25 +17,6 @@
       "automerge": true,
       "automergeType": "branch",
       "platformAutomerge": false
-    },
-    {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchPackageNames": [
-        "dj95/zjstatus"
-      ],
-      "versioning": "semver",
-      "extractVersion": "^v(?<version>.*)$",
-      "postUpgradeTasks": {
-        "commands": [
-            "bash -lc 'URL=\"https://github.com/dj95/zjstatus/releases/download/v{{{newValue}}}/zjstatus.wasm\"; HASH=$(nix store prefetch-file --json \"$URL\" | python3 -c \"import json,sys;print(json.load(sys.stdin)[\\\"hash\\\"])\"); sed -i -E \"s#hash = \\\"[^\\\"]+\\\";#hash = \\\"$HASH\\\";#\" pkgs/zjstatus-plugin/default.nix'"
-        ],
-        "fileFilters": [
-          "pkgs/zjstatus-plugin/default.nix"
-        ],
-        "executionMode": "update"
-      }
     }
   ],
   "lockFileMaintenance": {

@@ -4,7 +4,6 @@
 }:
 
 let
-  customPkgs = pkgs.callPackage ../../pkgs { };
   opencodeSettings = builtins.removeAttrs (builtins.fromJSON (
     builtins.readFile ./opencode/opencode.json
   )) [ "$schema" ];
@@ -35,8 +34,7 @@ in
         source = ./zellij.kdl;
       };
 
-      "zellij/plugins/zjstatus.wasm".source =
-        "${customPkgs.zjstatusPlugin}/share/zellij/plugins/zjstatus.wasm";
+      "zellij/plugins/zjstatus.wasm".source = pkgs.zellijPlugins.zjstatus;
 
       "opencode/AGENTS.md".source = ./opencode/AGENTS.md;
 
