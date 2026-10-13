@@ -4,9 +4,26 @@
     "config:recommended"
   ],
   "automerge": false,
+  "rangeStrategy": "pin",
+  "pinDigests": true,
   "nix": {
     "enabled": true
   },
+  "pre-commit": {
+    "enabled": true
+  },
+  "argocd": {
+    "managerFilePatterns": [
+      "/^hosts/server/incus/instances/kubernetes/manifests/.*\\.yaml$/"
+    ]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["argocd"],
+      "matchDatasources": ["git-tags", "helm"],
+      "pinDigests": false
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
