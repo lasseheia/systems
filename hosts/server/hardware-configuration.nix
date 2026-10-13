@@ -7,21 +7,22 @@
   ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  boot.initrd.availableKernelModules = [
-    "xhci_pci"
-    "thunderbolt"
-    "nvme"
-    "usb_storage"
-    "sd_mod"
-  ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot = {
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "thunderbolt"
+      "nvme"
+      "usb_storage"
+      "sd_mod"
+    ];
+    kernelModules = [ "kvm-intel" ];
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+  };
   hardware.cpu.intel.updateMicrocode = true;
   networking.useDHCP = true;
-
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-  };
 
   networking.hostId = "b648d918"; # Randomly generated host ID, this is required for ZFS
   disko.devices = {
