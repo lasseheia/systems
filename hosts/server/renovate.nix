@@ -22,8 +22,8 @@
       requireConfig = "required";
       binarySource = "global";
       force.automerge = false;
-      prConcurrentLimit = 5;
-      prHourlyLimit = 2;
+      prConcurrentLimit = 0;
+      prHourlyLimit = 0;
     };
   };
 }
