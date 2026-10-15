@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://argoproj.github.io/argo-helm
     chart: argo-workflows
-    targetRevision: 2.0.12
+    targetRevision: 2.0.13
   destination:
     server: https://kubernetes.default.svc
     namespace: argo-workflows
