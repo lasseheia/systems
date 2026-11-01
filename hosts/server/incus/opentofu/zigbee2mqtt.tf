@@ -12,7 +12,7 @@ resource "incus_storage_volume" "zigbee2mqtt_data" {
 resource "incus_image" "zigbee2mqtt" {
   source_image = {
     remote = "github"
-    name   = "koenkk/zigbee2mqtt:2.14.2@sha256:addbfb08fcef2e4477de1535636118241e10d13e898fbe4d9faba8a4d7396311"
+    name   = "koenkk/zigbee2mqtt:2.14.3@sha256:fb4a6b0f6868ad1cd6a9996479802b2420e599c3463b62bbff8c8cd9a908f43a"
   }
 }
 
