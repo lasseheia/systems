@@ -12,7 +12,7 @@ resource "incus_storage_volume" "eclipse_mosquitto_data" {
 resource "incus_image" "eclipse_mosquitto" {
   source_image = {
     remote = "docker"
-    name   = "eclipse-mosquitto:2.1.2-alpine@sha256:860aeb5d63ce509508f6dcfb2bc8a1c1dd2bc60555b562b45ce90e52d8dabb0f"
+    name   = "eclipse-mosquitto:2.1.4-alpine@sha256:fa12172a051310efe5bcb7a6a11b77bd5faacb82cbacd7742aa758bf024fd8e4"
   }
 }
 
