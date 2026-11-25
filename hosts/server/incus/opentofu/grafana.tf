@@ -1,7 +1,7 @@
 resource "incus_image" "grafana" {
   source_image = {
     remote = "docker"
-    name   = "grafana/grafana:13.3.0@sha256:488984b716c0862639f91a698adbe2862677a5a07bad42da5f03f3030883b205"
+    name   = "grafana/grafana:13.3.2@sha256:81556409ba48b2b922e0adb69a2511337d8ba7578f11962eefa6149a2d815101"
   }
 }
 
